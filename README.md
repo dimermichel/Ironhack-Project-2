@@ -1,6 +1,7 @@
 Collaboration
 
-: 1.create a branch
-<git checkout -b branch-name>
+steps: 
 
-2. commit message
+1.create a branch
+<git checkout -b branch-name>
+2. make changes to your code
