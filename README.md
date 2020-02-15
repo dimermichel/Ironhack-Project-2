@@ -1,7 +1,14 @@
-Collaboration
+# JS | Mia Wallet - Ironhack - Project 2
 
-steps: 
+_Disclosure_: The goal of this project is to understand the usage of Javascript technology only. Since this is an Ironhack student's project, no commercial usage is allowed. This is a collaboration between future fullstack developers. Keep in touch for some news.
+<br>
 
-1.create a branch
-<git checkout -b branch-name>
-2. make changes to your code
+
+## Getting Started
+
+1. __Fork__ this repository.
+
+2. Make your changes and Have fun!
+<br>
+
+**Happy coding!** :rocket:
