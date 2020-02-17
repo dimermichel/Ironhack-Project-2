@@ -1,0 +1,164 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap");
+body {
+  font-family: 'Roboto', sans-serif;
+  padding: 0;
+  margin: 0;
+  color: #1A1A1A; }
+
+a {
+  color: #00B7FF; }
+
+h1 {
+  text-align: center; }
+
+.form {
+  margin: 30px auto;
+  width: 380px; }
+
+.form label {
+  color: #666;
+  display: inline-block;
+  margin-bottom: 10px;
+  width: 100%; }
+
+.form input,
+.form select,
+.form button {
+  box-sizing: border-box;
+  font-size: 14px;
+  outline: 0;
+  padding: 1vw;
+  width: 100%;
+  margin-bottom: 20px; }
+
+.form button {
+  background: #43a3e6;
+  border: 1px solid #43a3e6;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  padding: 8px 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: .3s ease background;
+  width: 100%; }
+
+.form button:hover {
+  background: #fff;
+  color: #43a3e6;
+  transition: .3s ease background; }
+
+.name {
+  display: flex; }
+
+.name > div {
+  width: 50%; }
+
+.name > div:first-child {
+  padding-right: 1vw; }
+
+.error-message {
+  background: #F02B63;
+  box-sizing: border-box;
+  color: #fff;
+  margin: 20px auto;
+  padding: 20px;
+  width: 100%; }
+
+.principal-div {
+  padding-top: 15vh;
+  padding-left: 5vw;
+  padding-right: 5vw; }
+
+.flex {
+  display: flex; }
+
+.flex a {
+  font-size: large;
+  padding-right: 1vw; }
+
+.flex button {
+  cursor: pointer;
+  border: none; }
+
+/* Header */
+header > div {
+  top: 0;
+  position: fixed;
+  z-index: 9999;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.1); }
+
+nav {
+  width: 40%; }
+
+nav label, #hamburger {
+  display: none; }
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  align-items: center; }
+
+nav a {
+  text-decoration: none;
+  color: black; }
+
+nav button {
+  font-size: inherit;
+  font-weight: 500;
+  border: none;
+  text-decoration: none;
+  color: black;
+  background-color: white;
+  cursor: pointer; }
+
+.codeexpress-logo {
+  width: 55px;
+  padding: 10px; }
+
+/* Media Queries */
+@media (max-width: 750px) {
+  header > div {
+    flex-flow: column wrap; }
+  nav {
+    width: 100%;
+    padding: 0;
+    margin: 0; }
+  nav ul {
+    padding: 0; }
+  nav a {
+    color: #1A1A1A;
+    font-weight: 500;
+    cursor: pointer; }
+  /* Show Hamburger */
+  nav label {
+    display: inline-block;
+    color: #191919;
+    font-style: normal;
+    font-size: 2em;
+    padding: 10px;
+    position: absolute;
+    top: 15px;
+    right: 20px; }
+  /* Break down menu items into vertical */
+  nav ul li {
+    font-size: 2em;
+    text-align: center;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    display: block; }
+  /* Toggle show/hide menu on checkbox click */
+  #page-nav ul {
+    display: none; }
+  #page-nav input[type=checkbox]:checked ~ ul {
+    animation: fadein 1s forwards;
+    display: block; } }
+
+/*# sourceMappingURL=style.css.map */
