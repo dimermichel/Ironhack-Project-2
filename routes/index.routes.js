@@ -3,7 +3,10 @@ const router  = express.Router();
 
 /* GET home page */
 router.get('/', (req, res, next) => {
-  res.render('index');
+  // Passing the cookie to the index to update the navbar
+  const Session = req.session;
+  //console.log(Session);
+  res.render('index', {Session})
 });
 
 module.exports = router;

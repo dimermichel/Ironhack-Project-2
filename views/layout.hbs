@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +8,52 @@
   <title>{{title}}</title>
   <link rel="stylesheet" href="/stylesheets/style.css" />
 </head>
-<body>
 
-  {{{body}}}
+<body>
+  <header>
+    <div>
+      <div>
+        <a href="/"><img class="codeexpress-logo" src="/images/CODEXPRESSO-02.png" alt="Code Express logo"></a>
+      </div>
+
+      <nav id="page-nav">
+
+        <label for="hamburger">&#9776;</label>
+        <input type="checkbox" id="hamburger" />
+
+        <ul>
+          {{#unless Session.currentUser}}
+          {{#compare data "login" operator="!="}}
+          <li><a href="/login">Login</a></li>
+          {{/compare}}
+          <li><a href="/signup">Sign Up</a></li>
+          {{/unless}}
+
+          {{#if Session.currentUser}}
+          <li><a href="#">Dashboard</a></li>
+          <li><a href="#">Accounts</a></li>
+          <li><a href="#">Transactions</a></li>
+
+          <li><a href="#"><img class="codeexpress-logo" src="{{Session.imageUrl}}" alt="profile picture"></a></li>
+
+          <li>
+            <form action="/logout" method="POST">
+              <button type="submit">Logout</button>
+            </form>
+          </li>
+
+          {{/if}}
+        </ul>
+
+      </nav>
+    </div>
+  </header>
+
+  <div class="principal-div">
+    {{{body}}}
+  </div>
 
   <script src="/javascripts/script.js"></script>
 </body>
+
 </html>
