@@ -1,11 +1,12 @@
 const express = require('express');
+
 const authRouter = express.Router();
 
+const bcrypt = require('bcryptjs');
 const User = require('../models/User.model');
 const routeGuard = require('../configs/route-guard.config');
 
 // BCrypt to encrypt passwords
-const bcrypt = require("bcryptjs");
 const bcryptSalt = 10;
 
 authRouter.post("/signup", (req, res, next) => {
@@ -14,6 +15,7 @@ authRouter.post("/signup", (req, res, next) => {
   if (firstName === "" || lastName === "" || username === "" || password === "" || email === "") {
     res.render("auth-views/signup", {
       errorMessage: "Please fill up all the forms."
+
     });
     return;
   }
@@ -21,12 +23,13 @@ authRouter.post("/signup", (req, res, next) => {
   // We need to all extra validation to the forms
 
   User.findOne({
-      "username": username
-    })
+    username,
+  })
     .then(user => {
       if (user !== null) {
         res.render("auth-views/signup", {
           errorMessage: "The username already exists!"
+
         });
         return;
       }
@@ -37,38 +40,38 @@ authRouter.post("/signup", (req, res, next) => {
       User.create({ firstName, lastName, username, passwordHash: hashPass, email })
         .then(() => res.redirect("/login"))
         .catch(error => console.log(error))
+
     })
-    .catch(error => next(error))
+    .catch(error => next(error));
 });
 
-authRouter.get("/signup", (req, res, next) => {
-  res.render("auth-views/signup");
+authRouter.get('/signup', (req, res, next) => {
+  res.render('auth-views/signup');
 });
 
-
-authRouter.get("/login", (req, res, next) => {
-  let data = 'login';
-  res.render("auth-views/login", {data});
+authRouter.get('/login', (req, res, next) => {
+  const data = 'login';
+  res.render('auth-views/login', { data });
 });
 
-authRouter.post("/login", (req, res, next) => {
+authRouter.post('/login', (req, res, next) => {
   const theUsername = req.body.username;
   const thePassword = req.body.password;
 
-  if (theUsername === "" || thePassword === "") {
-    res.render("auth-views/login", {
-      errorMessage: "Please enter both, username and password to sign up."
+  if (theUsername === '' || thePassword === '') {
+    res.render('auth-views/login', {
+      errorMessage: 'Please enter both, username and password to sign up.',
     });
     return;
   }
 
   User.findOne({
-      "username": theUsername
-    })
+    username: theUsername,
+  })
     .then(user => {
       if (!user) {
-        res.render("auth-views/login", {
-          errorMessage: "The username doesn't exist."
+        res.render('auth-views/login', {
+          errorMessage: "The username doesn't exist.",
         });
         return;
       }
@@ -84,12 +87,12 @@ authRouter.post("/login", (req, res, next) => {
         req.session._id = user._id;
         res.redirect("/");
       } else {
-        res.render("auth-views/login", {
-          errorMessage: "Incorrect password"
+        res.render('auth-views/login', {
+          errorMessage: 'Incorrect password',
         });
       }
     })
-    .catch(error => next(error))
+    .catch(error => next(error));
 });
 
 authRouter.post('/logout', routeGuard, (req, res) => {

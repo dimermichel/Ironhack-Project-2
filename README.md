@@ -12,4 +12,3 @@ _Disclosure_: The goal of this project is to understand the usage of Javascript 
 <br>
 
 **Happy coding!** :rocket:
-

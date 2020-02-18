@@ -1,9 +1,10 @@
 const express = require('express');
-const router  = express.Router();
+
+const router = express.Router();
 const uploadCloud = require('../configs/cloudinary.config');
 const routeGuard = require('../configs/route-guard.config');
 
-const User = require('../models/User.model')
+const User = require('../models/User.model');
 
 /* User profile page */
 router.get('/profile', routeGuard, (req, res, next) => {
@@ -13,6 +14,7 @@ router.get('/profile', routeGuard, (req, res, next) => {
     res.render('user-views/profile', {user: currentUser});
   })
   .catch(err => next(err))
+
 });
 
 router.post('/profile/update', routeGuard, uploadCloud.single('imageUrl') ,(req, res, next) => {
