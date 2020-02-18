@@ -1,5 +1,6 @@
 const express = require('express');
-const router  = express.Router();
+
+const router = express.Router();
 
 const subs = require('../data.json')
 console.log('jlajdljaljd ===> ', subs)
