@@ -9,18 +9,13 @@ const routeGuard = require('../configs/route-guard.config');
 // BCrypt to encrypt passwords
 const bcryptSalt = 10;
 
-authRouter.post('/signup', (req, res, next) => {
-  const { firstName, lastName, username, email, password } = req.body;
+authRouter.post("/signup", (req, res, next) => {
+  const { firstName, lastName, username, email, password } = req.body
 
-  if (
-    firstName === '' ||
-    lastName === '' ||
-    username === '' ||
-    password === '' ||
-    email === ''
-  ) {
-    res.render('auth/signup', {
-      errorMessage: 'Please fill up all the forms.',
+  if (firstName === "" || lastName === "" || username === "" || password === "" || email === "") {
+    res.render("auth-views/signup", {
+      errorMessage: "Please fill up all the forms."
+
     });
     return;
   }
@@ -32,8 +27,9 @@ authRouter.post('/signup', (req, res, next) => {
   })
     .then(user => {
       if (user !== null) {
-        res.render('auth/signup', {
-          errorMessage: 'The username already exists!',
+        res.render("auth-views/signup", {
+          errorMessage: "The username already exists!"
+
         });
         return;
       }
@@ -41,15 +37,10 @@ authRouter.post('/signup', (req, res, next) => {
       const salt = bcrypt.genSaltSync(bcryptSalt);
       const hashPass = bcrypt.hashSync(password, salt);
 
-      User.create({
-        firstName,
-        lastName,
-        username,
-        passwordHash: hashPass,
-        email,
-      })
-        .then(() => res.redirect('/'))
-        .catch(error => console.log(error));
+      User.create({ firstName, lastName, username, passwordHash: hashPass, email })
+        .then(() => res.redirect("/login"))
+        .catch(error => console.log(error))
+
     })
     .catch(error => next(error));
 });
@@ -89,12 +80,10 @@ authRouter.post('/login', (req, res, next) => {
         req.session.currentUser = theUsername;
         let cropFaceImage = user.imageUrl;
         cropFaceImage = cropFaceImage.split('upload/')
-        let finalImg = cropFaceImage[0] + 'upload/w_240,h_240,c_thumb,g_face,r_max/' + cropFaceImage[1]
+        let finalImg = `${cropFaceImage[0]}upload/w_240,h_240,c_thumb,g_face,r_max/${cropFaceImage[1].substr(0, cropFaceImage[1].length - 3)}png`
         console.log(finalImg)
         //req.session.imageUrl = updatedUser.imageUrl;
         req.session.imageUrl = finalImg;
-        //-------------------------------------
-        // req.session.imageUrl = user.imageUrl;
         req.session._id = user._id;
         res.redirect("/");
       } else {
