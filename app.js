@@ -68,6 +68,6 @@ app.use('/', require('./routes/auth.routes'));
 app.use('/', require('./routes/user.routes'));
 // app.use('/', require('./routes/accounts.routes'));
 // app.use('/', require('./routes/transactions.routes'));
-// app.use('/', require('./routes/categories.routes'));
+app.use('/', require('./routes/categories.routes'));
 
 module.exports = app;

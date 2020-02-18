@@ -1,6 +1,11 @@
 const express = require('express');
 const router  = express.Router();
 
+const subs = require('../data.json')
+console.log('jlajdljaljd ===> ', subs)
+
+const { shopping, newSub } = subs
+
 /* GET home page */
 // Modify here the routes and remenber to send the data to the right HBS File
 // router.get('/', (req, res, next) => {
