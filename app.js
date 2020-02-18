@@ -65,5 +65,9 @@ app.locals.title = 'MIA WALLET APP';
 //         V  V  V
 app.use('/', require('./routes/index.routes'));
 app.use('/', require('./routes/auth.routes'));
+app.use('/', require('./routes/user.routes'));
+// app.use('/', require('./routes/accounts.routes'));
+// app.use('/', require('./routes/transactions.routes'));
+app.use('/', require('./routes/categories.routes'));
 
 module.exports = app;
