@@ -1,5 +1,6 @@
 const express = require('express');
-const router  = express.Router();
+
+const router = express.Router();
 
 /* GET home page */
 // Modify here the routes and remenber to send the data to the right HBS File
