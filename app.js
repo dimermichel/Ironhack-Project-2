@@ -26,7 +26,7 @@ app.use(session({
   secret: "basic-auth-secret",
   cookie: { maxAge: 3600000 }, // 1 hour
   resave: true,
-  saveUninitialized: false,
+  saveUninitialized: true,
   store: new MongoStore({
     mongooseConnection: mongoose.connection,
     ttl: 24 * 60 * 60 // 1 day
@@ -58,6 +58,15 @@ hbs.registerHelper('compare', compare);
 
 // Default value for title local
 app.locals.title = 'MIA WALLET APP';
+
+app.use((req, res, next) => {
+  res.locals.currentUser = req.session.user;
+  res.locals.imageUrl = req.session.imageUrl;
+  console.log({Request_session: req.session});
+  console.log("=======================================================");
+  console.log({Response_locals: res.locals});
+  next();
+});
 
 // Setup all Routes Here
 //         |  |  |

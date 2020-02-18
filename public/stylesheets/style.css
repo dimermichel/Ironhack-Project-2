@@ -124,6 +124,10 @@ nav button {
   width: 55px;
   padding: 10px; }
 
+.profile-img {
+  width: 200px;
+  padding: 10px; }
+
 /* Media Queries */
 @media (max-width: 750px) {
   header > div {

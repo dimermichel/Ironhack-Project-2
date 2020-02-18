@@ -1,5 +1,7 @@
 {{!-- we need to have enctype="multipart/form-data" and input type="file" --}}
 
+<img src="{{user.imageUrl}}" class="profile-img">
+<br>
 <h1>Profile</h1>
 
 <form action="/profile/update" method="post" enctype="multipart/form-data">
@@ -21,6 +23,7 @@
   <label for="email">Email</label><br>
   <input required value="{{user.email}}" type="email" name="email" placeholder="email@example.com">
 
+  <br>
   {{!-- <label for="password">Password</label><br>
   <input required value="" type="password" name="password" placeholder="********"> --}}
 
@@ -28,6 +31,7 @@
   <div class="error-message">{{ errorMessage }}</div>
   {{/if}}
 
+  <br>
   <label for="imageUrl">Profile Picture</label>
   <input id="imageUrl" type="file" name="imageUrl">
 
