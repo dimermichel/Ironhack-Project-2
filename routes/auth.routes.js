@@ -87,9 +87,16 @@ authRouter.post('/login', (req, res, next) => {
       if (bcrypt.compareSync(thePassword, user.passwordHash)) {
         // Save the login in the session!
         req.session.currentUser = theUsername;
-        req.session.imageUrl = user.imageUrl;
-        req.session.page = '';
-        res.redirect('/');
+        let cropFaceImage = user.imageUrl;
+        cropFaceImage = cropFaceImage.split('upload/')
+        let finalImg = cropFaceImage[0] + 'upload/w_240,h_240,c_thumb,g_face,r_max/' + cropFaceImage[1]
+        console.log(finalImg)
+        //req.session.imageUrl = updatedUser.imageUrl;
+        req.session.imageUrl = finalImg;
+        //-------------------------------------
+        // req.session.imageUrl = user.imageUrl;
+        req.session._id = user._id;
+        res.redirect("/");
       } else {
         res.render('auth-views/login', {
           errorMessage: 'Incorrect password',

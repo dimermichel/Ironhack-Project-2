@@ -16,21 +16,30 @@ router.get('/profile', routeGuard, (req, res, next) => {
     .catch(err => next(err));
 });
 
-router.post(
-  '/profile/update',
-  uploadCloud.single('image'),
-  (req, res, next) => {
-    const userInputInfo = req.body;
-    userInputInfo.imageUrl = req.file.url;
-    console.log(userInputInfo);
-    console.log({ body: req.body, file: req.file });
-    User.updateOne(userInputInfo)
-      .then(updatedUser => {
-        req.session.imageUrl = updatedUser.imageUrl;
-        res.redirect('back');
-      })
-      .catch(err => next(err));
-  },
-);
+router.post('/profile/update', routeGuard, uploadCloud.single('imageUrl') ,(req, res, next) => {
+  console.log("updating profile <<<<<<<<<<<<<<<<<<<<< ");
+  const userInputInfo = req.body;
+  userInputInfo.imageUrl = req.file.url;
+  console.log({userInputInfo});
+  console.log({body: req.body , file: req.file})
+  console.log("=======================================");
+  console.log('You are about to see the req.session.user');
+  console.log({Sessions: req.session});
+  User.findByIdAndUpdate(
+    req.session._id,
+   userInputInfo, {new:true})
+  .then( updatedUser => {
+    console.log({updatedUser});
+    let cropFaceImage = updatedUser.imageUrl
+    cropFaceImage = cropFaceImage.split('upload/')
+    let finalImg = cropFaceImage[0] + 'upload/w_240,h_240,c_thumb,g_face,r_max/' + cropFaceImage[1]
+    console.log(finalImg)
+    //req.session.imageUrl = updatedUser.imageUrl;
+    req.session.imageUrl = finalImg;
+    res.redirect('/');
+  })
+  .catch(err => next(err))
+  
+});
 
 module.exports = router;
