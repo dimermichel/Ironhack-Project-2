@@ -4,14 +4,15 @@
 
 <form id="form" class="form" action="/login" method="POST">
   <label for="username">Username</label><br>
-  <input required type="text" name="username" placeholder="Your username" required>
+  <input required type="text" name="username" placeholder="Your username">
 
   <label for="password">Password</label><br>
-  <input required type="password" name="password" placeholder="********" required>
+  <input required type="password" name="password" placeholder="********">
 
   {{#if errorMessage}}
   <div class="error-message">{{ errorMessage }}</div>
   {{/if}}
 
   <button type="submit">Login</button>
+  <a href="/reset">Forgot your password?</a>
 </form>

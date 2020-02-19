@@ -17,9 +17,14 @@ const accountSchema = new Schema(
       required: [true, 'Please insert data.'],
     },
     transactions: {
-      type: Array[Object],
+      // this sintax don't work for Mongoose Schemas :C
+      //type: Array[Object], You have to use something like this:
+      // |
+      // V
+      type: Array,
 
-      required: [true, 'Please insert data.'],
+      //required: [true, 'Please insert data.'],
+      // You cannot require transactions right away otherwise will block the creation of the accounts
     },
   },
   {

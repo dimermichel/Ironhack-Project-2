@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const subs = require('../data.json')
-console.log('jlajdljaljd ===> ', subs)
+//console.log('jlajdljaljd ===> ', subs)
 
 const { shopping, newSub } = subs
 
