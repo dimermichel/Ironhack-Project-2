@@ -192,9 +192,9 @@ authRouter.get('/reset/:token', (req, res, next) => {
     req.session._id = user._id;
     res.locals._id = user._id;
     req.session.token = user.resetToken
-    console.log({session: req.session})
-    console.log('---------------------');
-    console.log({locals: res.locals})
+    // console.log({session: req.session})
+    // console.log('---------------------');
+    // console.log({locals: res.locals})
     res.render('auth-views/new-password');
   }).catch(err => console.log(err))
 });
@@ -203,7 +203,7 @@ authRouter.post('/reset-password', (req, res, next) => {
   const newPassword = req.body.password;
 
   User.findOne({resetToken: req.session.token, resetTokenExpiration: {$gt: Date.now()}, _id: req.session._id})
-  .then(user => {
+  .then( user => {
 
     const salt = bcrypt.genSaltSync(bcryptSalt);
     const hashPass = bcrypt.hashSync(newPassword, salt);
