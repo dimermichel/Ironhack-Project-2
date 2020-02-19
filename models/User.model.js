@@ -38,8 +38,11 @@ const userSchema = new Schema(
         'https://res.cloudinary.com/dimermichel/image/upload/c_thumb,h_240,r_max,w_240/v1581909162/ironhackProject2/defaut_llrjv7.png',
     },
     // the code sent to user email in order to validate email authenticity
-    confirmationCode: {
+    resetToken: {
       type: String,
+    },
+    resetTokenExpiration: {
+      type: Date
     },
     // Log of Delete and Update actions of the user
     logActions: {

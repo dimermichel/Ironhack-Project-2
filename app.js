@@ -42,7 +42,6 @@ app.use(session({
   })
 }));
 
-
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -69,6 +68,7 @@ hbs.registerHelper('compare', compare);
 // Default value for title local
 app.locals.title = 'MIA WALLET APP';
 
+// Setup local variables Midleware
 app.use((req, res, next) => {
   res.locals.currentUser = req.session.currentUser;
   res.locals.imageUrl = req.session.imageUrl;

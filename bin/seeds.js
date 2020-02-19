@@ -31,7 +31,7 @@ const categories = [{
 ]
 
 const createCategories = categories.map(oneCateg => {
-    console.log('=-=-=-=-', oneCateg.subcategories);
+    //console.log('=-=-=-=-', oneCateg.subcategories);
     // to check the name of our categories
   });
 

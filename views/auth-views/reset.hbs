@@ -1,0 +1,14 @@
+{{!-- views/auth-views/reset.hbs --}}
+
+<h1>Reset your password</h1>
+
+<form id="form" class="form" action="/reset" method="POST">
+  <label for="email">Email</label><br>
+  <input required type="email" name="email" placeholder="Your email">
+
+  {{#if errorMessage}}
+  <div class="error-message">{{ errorMessage }}</div>
+  {{/if}}
+
+  <button type="submit">Reset</button>
+</form>
