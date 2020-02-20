@@ -4,14 +4,30 @@ const { Schema, model } = mongoose;
 
 const transactionSchema = new Schema(
   {
-    name: {
-      type: String,
-      // trim : true is going to catch all empty spaces and trim them
-      trim: true,
-      // required: This fied is required to create this object
-      required: [true, 'Please insert data.'],
+    amount: {
+      type: Number,
+      default: 0
     },
-    // Need to add field here
+    type: {
+      type: String, 
+      enum : ['credit','debit'], 
+      default: 'debit'
+    },
+    account: { 
+      type: Schema.Types.ObjectId, 
+      ref: 'Account' 
+    },
+    merchant: String,
+    date: {
+      type: Date,
+      required: [true, 'You need to insert a date.']
+    },
+    category: {
+      type: String,
+      default: 'Uncategorized'
+    },
+    tags: [String],
+    notes: String
   },
   {
     timestamps: true,
