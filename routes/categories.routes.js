@@ -1,11 +1,19 @@
 const express = require('express');
+const router  = express.Router();
 
-const router = express.Router();
+const subcateg = require('../data/category.data.json')
 
-const subs = require('../data.json')
-//console.log('jlajdljaljd ===> ', subs)
+router.get('/category', (req, res, next) => {
+  res.render('categories-views/file', {subcateg})
+})
 
-const { shopping, newSub } = subs
+
+// console.log('jlajdljaljd ===> ', subcateg.transport)
+
+// const { shopping, newSub } = sub
+
+// const { transport, utilities, taxes, transfer, travel, kids, loans, personalCare, pets, shopping, businessServices, education, entertaiment, feesAndCharges, foodAndDinning, giftsAnDonations, healthAndFitness, home, income, investment, uncatgorized} = subcateg
+
 
 /* GET home page */
 // Modify here the routes and remenber to send the data to the right HBS File

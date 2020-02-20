@@ -13,26 +13,26 @@ const Account = require('../models/Account.model');
 //   but you don't have to specify "views" folder tho
 //   in res.render() we don't use '/'
 //   before we put the the path to the hbs file we want to render
-//   localhost:3000/authors-input
+//   localhost:3000/account
 router.get('/accounts-input', (req, res) =>
   res.render('accounts-views/account'),
 );
 
 // *****************************************************************************
-// POST route to create a new author in the DB
+// POST route to create a new account in the DB
 // *****************************************************************************
 
-// <form action="/authors" method="POST">
-router.post('/accounts', (req, res) => {
+// <form action="/account" method="POST">
+router.post('/account', (req, res) => {
   Account.create(req.body)
     .then(savedAccount => {
-      // console.log('Successfully saved: ', savedAuthor);
+      // console.log('Successfully saved: ', savedAccount);
 
       // take us to the page that already exist in our app
       //      ^       ->  this is the URL so it HAS to start with '/'
       //      |      |
       //      |      |
-      res.redirect('/accounts');
+      res.redirect('/account');
     })
     .catch(err => console.log(`Error while saving author in the DB: ${err}`));
 });
@@ -41,7 +41,7 @@ router.post('/accounts', (req, res) => {
 // GET all accounts from the DB
 // *****************************************************************************
 
-router.get('/accounts', (req, res) => {
+router.get('/account', (req, res) => {
   Account.find() // <-- .find() method gives us always an ARRAY back
     .then(accountsFromDB => {
       // console.log('Accounts from DB: ========', accountsFromDB);
