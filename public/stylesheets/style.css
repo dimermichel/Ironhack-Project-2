@@ -11,6 +11,12 @@ a {
 h1 {
   text-align: center; }
 
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%; }
+
 .form {
   margin: 30px auto;
   width: 380px; }
@@ -96,7 +102,7 @@ header > div {
   box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.1); }
 
 nav {
-  width: 40%; }
+  width: 60%; }
 
 nav label, #hamburger {
   display: none; }
@@ -122,6 +128,10 @@ nav button {
 
 .codeexpress-logo {
   width: 55px;
+  padding: 10px; }
+
+.profile-img {
+  width: 200px;
   padding: 10px; }
 
 /* Media Queries */
