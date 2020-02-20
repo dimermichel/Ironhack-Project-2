@@ -3,19 +3,25 @@ const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 const accountSchema = new Schema(
   {
-    name: {
+    accName: {
       type: String,
       // trim : true is going to catch all empty spaces and trim them
       trim: true,
       // required: This fied is required to create this object
       required: [true, 'Please insert data.'],
     },
-    currentBalance: {
+    accBalance: {
       type: Number,
       required: [true, 'Please insert data.'],
     },
     transactions: {
       type: Array,
+    },
+
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: [true, 'You need an owner id'],
     },
   },
   {
