@@ -5,18 +5,19 @@ const express = require('express');
 const authRouter = express.Router();
 
 const nodemailer = require('nodemailer');
-const sendgridTransport = require('nodemailer-sendgrid-transport')
 
 const bcrypt = require('bcryptjs');
 const User = require('../models/User.model');
 const routeGuard = require('../configs/route-guard.config');
 
-// Setup email transporter with Nodemailer and Sendgrid
-const transporter = nodemailer.createTransport(sendgridTransport({
+// Setup email transporter with Nodemailer and Gmail
+let transporter = nodemailer.createTransport({
+  service: 'Gmail',
   auth: {
-    api_key: process.env.SENDGRID_API_KEY
+    user: 'miawalletapp@gmail.com',
+    pass: process.env.GMAIL_KEY 
   }
-}))
+});
 
 // BCrypt to encrypt passwords
 const bcryptSalt = 10;
@@ -54,7 +55,7 @@ authRouter.post("/signup", (req, res, next) => {
           res.redirect("/login")
           //Send email after SignUp
           return transporter.sendMail({
-            from: '"Mia Wallet Team " <welcome@miawallet.com>',
+            from: '"Mia Wallet Team " <miawalletapp@gmail.com>',
             to: email, 
             subject: 'Signup succeeded', 
             html: `
@@ -161,7 +162,7 @@ authRouter.post('/reset', (req, res, next) => {
       })
       .then(result => {
         transporter.sendMail({
-          from: '"Mia Wallet Team " <security@miawallet.com>',
+          from: '"Mia Wallet Team " <miawalletapp@gmail.com>',
           to: email, 
           subject: 'Password reset', 
           html: `
