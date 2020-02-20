@@ -173,6 +173,7 @@ authRouter.post('/reset', (req, res, next) => {
             </div>
           `
         })
+        console.log(`Email sent to : ${email}`);
       }).then(() => res.redirect('/login'))
       .catch(err => console.log(err))
   });
