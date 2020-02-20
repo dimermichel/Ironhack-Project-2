@@ -1,13 +1,30 @@
 const express = require('express');
 const router  = express.Router();
 
-/* GET home page */
-// Modify here the routes and remenber to send the data to the right HBS File
-// router.get('/', (req, res, next) => {
-//   // Passing the cookie to the index to update the navbar
-//   const Session = req.session;
-//   //console.log(Session);
-//   res.render('index', {Session})
-// });
+const routeGuard = require('../configs/route-guard.config');
+
+const User = require('../models/User.model');
+const Transaction = require('../models/Transaction.model');
+const Account = require('../models/Account.model');
+const Category = require('../data/category.data.json')
+
+/* User profile page */
+router.get('/transactions', routeGuard, (req, res, next) => {
+  User.findOne({_id: req.session._id})
+  .then(user => {
+      if (user !== null) {
+        res.render("auth-views/signup", {
+          errorMessage: "The username already exists!"
+
+        });
+        return;
+      }
+
+    console.log({currentUser})
+    res.render('transactions-views/add-transaction', {user: currentUser});
+  })
+  .catch(err => next(err))
+
+});
 
 module.exports = router;

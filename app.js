@@ -30,19 +30,17 @@ const debug = require('debug')(
 
 // Middleware Setup
 
-// Setup of the cookies session
-app.use(
-  session({
-    secret: 'basic-auth-secret',
-    cookie: { maxAge: 3600000 }, // 1 hour
-    resave: true,
-    saveUninitialized: true,
-    store: new MongoStore({
-      mongooseConnection: mongoose.connection,
-      ttl: 24 * 60 * 60, // 1 day
-    }),
-  }),
-);
+//Setup of the cookies session
+app.use(session({
+  secret: "basic-auth-secret",
+  cookie: { maxAge: 3600000 }, // 1 hour
+  resave: true,
+  saveUninitialized: true,
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 24 * 60 * 60 // 1 day
+  })
+}));
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -76,9 +74,9 @@ app.use((req, res, next) => {
   res.locals.imageUrl = req.session.imageUrl;
   res.locals._id = req.session._id;
   console.log('<<<<<<<<<< Midleware in App.js >>>>>>>>>>>>>');
-  console.log({ Request_session: req.session });
-  console.log('=======================================================');
-  console.log({ Response_locals: res.locals });
+  console.log({Request_session: req.session});
+  console.log("=======================================================");
+  console.log({Response_locals: res.locals});
   next();
 });
 
@@ -89,8 +87,8 @@ app.use((req, res, next) => {
 app.use('/', require('./routes/index.routes'));
 app.use('/', require('./routes/auth.routes'));
 app.use('/', require('./routes/user.routes'));
-app.use('/', require('./routes/accounts.routes'));
-// app.use('/', require('./routes/transactions.routes'));
+// app.use('/', require('./routes/accounts.routes'));
+app.use('/', require('./routes/transactions.routes'));
 app.use('/', require('./routes/categories.routes'));
 
 module.exports = app;
