@@ -46,6 +46,7 @@ authRouter.post("/signup", (req, res, next) => {
         return;
       }
 
+      email = email.toLowerCase();
       const salt = bcrypt.genSaltSync(bcryptSalt);
       const hashPass = bcrypt.hashSync(password, salt);
 
