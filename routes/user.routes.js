@@ -8,7 +8,7 @@ const User = require('../models/User.model');
 
 /* User profile page */
 router.get('/profile', routeGuard, (req, res, next) => {
-  User.findOne({_id: req.session._id})
+  User.findOne({_id: req.session.user._id})
   .then(currentUser => {
     console.log({currentUser})
     res.render('user-views/profile', {user: currentUser});
@@ -31,29 +31,27 @@ router.post('/profile/update', routeGuard, uploadCloud.single('imageUrl') ,(req,
   }
   // Check if there is a file to upload
   if (req.file) {
+    // Preparing to save the original file
     userInputInfo.imageUrl = req.file.url;
+    // Setup the Profile Pic with crop face image from Cloudinary
+     let cropFaceImage = userInputInfo.imageUrl;
+     cropFaceImage = cropFaceImage.split('upload/')
+     let finalImg = `${cropFaceImage[0]}upload/w_240,h_240,c_thumb,g_face,r_max/${cropFaceImage[1].substr(0, cropFaceImage[1].length - 3)}png`
+      console.log(finalImg)
+     //req.session.imageUrl = updatedUser.imageUrl;
+     userInputInfo.profilePicUrl = finalImg;
   }
 
   // Prepare to log the action =======================
   let dt = new Date();
   let utcDate = dt.toUTCString();
-  // console.log({userInputInfo});
-  // console.log({body: req.body , file: req.file})
-  // console.log("=======================================");
-  // console.log('You are about to see the req.session');
-  // console.log({Sessions: req.session});
-  User.findByIdAndUpdate( req.session._id, { 
+
+  User.findByIdAndUpdate( req.session.user._id, { 
     $set: userInputInfo,
     $push: {logActions: {action: 'Profile update', date: utcDate}},
   }, {new:true})
   .then( updatedUser => {
     console.log({updatedUser});
-    let cropFaceImage = updatedUser.imageUrl
-    cropFaceImage = cropFaceImage.split('upload/')
-    // This logic is to make sure to return a round crop face .PNG image from cloudinary
-    let finalImg = `${cropFaceImage[0]}upload/w_240,h_240,c_thumb,g_face,r_max/${cropFaceImage[1].substr(0, cropFaceImage[1].length - 3)}png`
-    req.session.imageUrl = finalImg;
-    // console.log({session: req.session});
     res.redirect('/profile');
   })
   .catch(err => next(err))

@@ -1,12 +1,11 @@
 require('dotenv').config();
 const crypto = require('crypto');
 const express = require('express');
+const nodemailer = require('nodemailer');
+const bcrypt = require('bcryptjs');
 
 const authRouter = express.Router();
 
-const nodemailer = require('nodemailer');
-
-const bcrypt = require('bcryptjs');
 const User = require('../models/User.model');
 const routeGuard = require('../configs/route-guard.config');
 
@@ -19,7 +18,7 @@ let transporter = nodemailer.createTransport({
   }
 });
 
-// BCrypt to encrypt passwords
+// BCrypt to encrypt passwords number of Salts
 const bcryptSalt = 10;
 
 authRouter.post("/signup", (req, res, next) => {
@@ -79,8 +78,7 @@ authRouter.get('/signup', (req, res, next) => {
 });
 
 authRouter.get('/login', (req, res, next) => {
-  const data = 'login';
-  res.render('auth-views/login', { data });
+  res.render('auth-views/login');
 });
 
 authRouter.post('/login', (req, res, next) => {
@@ -105,15 +103,8 @@ authRouter.post('/login', (req, res, next) => {
         return;
       }
       if (bcrypt.compareSync(thePassword, user.passwordHash)) {
-        // Save the login in the session!
-        req.session.currentUser = theUsername;
-        let cropFaceImage = user.imageUrl;
-        cropFaceImage = cropFaceImage.split('upload/')
-        let finalImg = `${cropFaceImage[0]}upload/w_240,h_240,c_thumb,g_face,r_max/${cropFaceImage[1].substr(0, cropFaceImage[1].length - 3)}png`
-        // console.log(finalImg)
-        //req.session.imageUrl = updatedUser.imageUrl;
-        req.session.imageUrl = finalImg;
-        req.session._id = user._id;
+        // sets a cookie with the user's info in the Session which is stored an _id in MongoDB to access this info later on
+        req.session.user = user;
         res.redirect("/");
       } else {
         res.render('auth-views/login', {
@@ -125,8 +116,7 @@ authRouter.post('/login', (req, res, next) => {
 });
 
 authRouter.get('/reset', (req, res, next) => {
-  const data = 'reset';
-  res.render('auth-views/reset', { data });
+  res.render('auth-views/reset');
 });
 
 authRouter.post('/reset', (req, res, next) => {
@@ -147,9 +137,10 @@ authRouter.post('/reset', (req, res, next) => {
       const token = buffer.toString('hex');
       
       User.findOne({
-        email ,
+        email
       })
       .then(user => {
+
         if (!user) {
           res.render('auth-views/reset', {
             errorMessage: "This email is not registered.",
@@ -158,13 +149,13 @@ authRouter.post('/reset', (req, res, next) => {
         }
         user.resetToken = token;
         user.resetTokenExpiration = Date.now() + 3600000;
+        // Saving the token in the DB to compare later
         user.save();
-      })
-      .then(result => {
+      
         transporter.sendMail({
           from: '"Mia Wallet Team " <miawalletapp@gmail.com>',
           to: email, 
-          subject: 'Password reset', 
+          subject: 'Password Reset', 
           html: `
             <div style="text-align: center;">
               <h2>You requested a password reset.</h2>
@@ -175,7 +166,8 @@ authRouter.post('/reset', (req, res, next) => {
           `
         })
         console.log(`Email sent to : ${email}`);
-      }).then(() => res.redirect('/login'))
+        res.redirect('/login')
+      }) 
       .catch(err => console.log(err))
   });
 });
@@ -184,19 +176,14 @@ authRouter.get('/reset/:token', (req, res, next) => {
   const token = req.params.token;
   User.findOne({resetToken: token, resetTokenExpiration: {$gt: Date.now()}})
   .then(user => {
-
+    console.log(user)
     if (!user) {
       res.render('auth-views/reset', {
         errorMessage: "This user or reset token is not valid. Reset your password again.",
       });
       return;
     }
-    req.session._id = user._id;
-    res.locals._id = user._id;
-    req.session.token = user.resetToken
-    // console.log({session: req.session})
-    // console.log('---------------------');
-    // console.log({locals: res.locals})
+    req.session.user = user;
     res.render('auth-views/new-password');
   }).catch(err => console.log(err))
 });
@@ -204,7 +191,7 @@ authRouter.get('/reset/:token', (req, res, next) => {
 authRouter.post('/reset-password', (req, res, next) => {
   const newPassword = req.body.password;
 
-  User.findOne({resetToken: req.session.token, resetTokenExpiration: {$gt: Date.now()}, _id: req.session._id})
+  User.findOne({resetToken: req.session.user.resetToken, resetTokenExpiration: {$gt: Date.now()}, _id: req.session.user._id})
   .then( user => {
 
     const salt = bcrypt.genSaltSync(bcryptSalt);
