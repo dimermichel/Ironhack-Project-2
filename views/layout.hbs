@@ -22,19 +22,17 @@
         <input type="checkbox" id="hamburger" />
 
         <ul>
-          {{#unless Session.currentUser}}
-          {{#compare data "login" operator="!="}}
+          {{#unless user._id}}
           <li><a href="/login">Login</a></li>
-          {{/compare}}
           <li><a href="/signup">Sign Up</a></li>
           {{/unless}}
 
-          {{#if Session.currentUser}}
+          {{#if Session.user}}
           <li><a href="#">Dashboard</a></li>
           <li><a href="#">Accounts</a></li>
           <li><a href="#">Transactions</a></li>
 
-          <li><a href="/profile/"><img class="codeexpress-logo" src="{{imageUrl}}" alt="profile picture"></a></li>
+          <li><a href="/profile/"><img class="codeexpress-logo" src="{{user.profilePicUrl}}" alt="profile picture"></a></li>
 
           <li>
             <form action="/logout" method="POST">

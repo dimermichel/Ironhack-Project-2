@@ -37,6 +37,11 @@ const userSchema = new Schema(
       default:
         'https://res.cloudinary.com/dimermichel/image/upload/c_thumb,h_240,r_max,w_240/v1581909162/ironhackProject2/defaut_llrjv7.png',
     },
+    profilePicUrl: {
+      type: String,
+      default:
+        'https://res.cloudinary.com/dimermichel/image/upload/c_thumb,h_240,r_max,w_240/v1581909162/ironhackProject2/defaut_llrjv7.png',
+    },
     // the code sent to user email in order to validate email authenticity
     resetToken: {
       type: String,
