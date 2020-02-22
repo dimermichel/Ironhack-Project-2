@@ -172,20 +172,3 @@ nav button {
     display: block; } }
 
 /*# sourceMappingURL=style.css.map */
-
-/* Transicion hbs Page */
-
-#numbers-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 10px;
-  padding: 10px;
-}
-
-.quantity {
-  width: 300px;
-  text-align: center;
-  font-size: 100px;
-}
-
-

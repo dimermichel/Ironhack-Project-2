@@ -1,0 +1,26 @@
+{{!-- views/accounts-views/account.hbs --}}
+
+<h1>{{user.username}}'s Accounts</h1>
+
+<form id="form" class="form" action="/account" method="POST">
+  <div class="name">
+    <div>
+      <label for="accName">Account Name</label>
+      <input required type="text" name="accName" placeholder="Enter account name">
+    </div>
+
+  <div>
+    <label for="accBalance">Account Balance</label>
+    <input required type="number" name="accBalance" placeholder="Enter account balance">
+  </div>
+
+
+  {{#if errorMessage}}
+  <div class="error-message">{{ errorMessage }}</div>
+  {{/if}}
+<div></div>
+<div>
+  <button type="submit">Create Account</button>
+</div>
+
+</form>

@@ -13,6 +13,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const hbs = require('hbs');
 const compare = require('./configs/hbs-helper.config');
+const localVariables = require('./configs/local-variables.config')
 
 const app = express();
 
@@ -32,10 +33,12 @@ const debug = require('debug')(
 
 //Setup of the cookies session
 app.use(session({
-  secret: "basic-auth-secret",
+  secret: process.env.SESS_SECRET,
   cookie: { maxAge: 3600000 }, // 1 hour
   resave: true,
   saveUninitialized: true,
+  duration: 24 * 60 * 60 * 1000, // how long the session will stay valid in ms
+  activeDuration: 1000 * 60 * 5, // if expiresIn < activeDuration, the session will be extended by activeDuration milliseconds
   store: new MongoStore({
     mongooseConnection: mongoose.connection,
     ttl: 24 * 60 * 60 // 1 day
@@ -69,6 +72,7 @@ hbs.registerHelper('compare', compare);
 app.locals.title = 'MIA WALLET APP';
 
 // Setup local variables Midleware
+
 app.use((req, res, next) => {
   res.locals.currentUser = req.session.currentUser;
   res.locals.imageUrl = req.session.imageUrl;
@@ -79,6 +83,7 @@ app.use((req, res, next) => {
   // console.log({Response_locals: res.locals});
   next();
 });
+app.use(localVariables);
 
 // Setup all Routes Here
 //         |  |  |
