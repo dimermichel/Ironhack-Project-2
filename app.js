@@ -73,10 +73,10 @@ app.use((req, res, next) => {
   res.locals.currentUser = req.session.currentUser;
   res.locals.imageUrl = req.session.imageUrl;
   res.locals._id = req.session._id;
-  console.log('<<<<<<<<<< Midleware in App.js >>>>>>>>>>>>>');
-  console.log({Request_session: req.session});
-  console.log("=======================================================");
-  console.log({Response_locals: res.locals});
+  // console.log('<<<<<<<<<< Midleware in App.js >>>>>>>>>>>>>');
+  // console.log({Request_session: req.session});
+  // console.log("=======================================================");
+  // console.log({Response_locals: res.locals});
   next();
 });
 
@@ -88,7 +88,7 @@ app.use('/', require('./routes/index.routes'));
 app.use('/', require('./routes/auth.routes'));
 app.use('/', require('./routes/user.routes'));
 // app.use('/', require('./routes/accounts.routes'));
-// app.use('/', require('./routes/transactions.routes'));
-app.use('/', require('./routes/categories.routes'));
+app.use('/', require('./routes/transactions.routes'));
+// app.use('/', require('./routes/categories.routes'));
 
 module.exports = app;
