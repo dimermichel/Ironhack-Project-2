@@ -1,13 +1,22 @@
 const express = require('express');
 const router  = express.Router();
+const listOfCategories = require('../data/category.data.js');
 
-/* GET home page */
-// Modify here the routes and remenber to send the data to the right HBS File
-// router.get('/', (req, res, next) => {
-//   // Passing the cookie to the index to update the navbar
-//   const Session = req.session;
-//   //console.log(Session);
-//   res.render('index', {Session})
-// });
+router.get('/add-transaction', (req, res) => {
+
+  const categObj = {
+  selector: []
+  }
+  
+  for (let elem of listOfCategories.subcategories) {
+    categObj.selector.push({
+        value: elem,
+        name: elem
+        // `${elem.charAt(0).toUpperCase()}${elem.slice(1)}`
+    });
+  }
+  console.log(categObj)
+  res.render('transactions-views/add-transaction', {categObj})
+})
 
 module.exports = router;
