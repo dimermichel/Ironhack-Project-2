@@ -2,7 +2,10 @@
 
 <form id="form" class="form" action="/add-transaction" method="POST">
   <div class="quantity">
-    <label id="howMuch" for="howMuchMoney">0.00</label>
+
+    <input required type="text" name="howMuchMoney" placeholder="0.00">
+
+    {{!-- <label id="howMuch" for="howMuchMoney">0.00</label> --}}
   </div>
 
   <div>
@@ -22,12 +25,13 @@
   <div>
     <label for="categoryInput">Category ></label> 
     <select name="categInput" id="spriteTypeInput">
+      <option value="" selected>Choose one</option>
           {{#each value}}
           <option value="">{{this}}</option>
           {{/each}}
         </select>
   </div>
-  <div id="numbers-grid">
+  {{!-- <div id="numbers-grid">
     <div class="btn btn-light waves-effect">
       <h3>1</h3>
     </div>
@@ -62,6 +66,6 @@
     </div>
     <div class="btn btn-light waves-effect">
     </div>
-  </div>
+  </div> --}}
 
 </form>
