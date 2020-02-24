@@ -3,8 +3,19 @@ const router  = express.Router();
 
 const subcateg = require('../data/category.data.json')
 
-router.get('/category', (req, res, next) => {
-  res.render('categories-views/file', {subcateg})
+router.get('/category', (req, res, next) => { 
+
+  const categoryObj = {
+    selector: []
+  }
+  
+  for (let elem of subcateg.subcategories) {
+  categoryObj.selector.push({
+      name: `${elem.charAt(0).toUpperCase()}${elem.slice(1)}`
+  });
+}
+  // console.log(categoryObj)
+  res.render('categories-views/file', {categoryObj})
 })
 
 

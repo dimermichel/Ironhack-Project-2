@@ -1,27 +1,32 @@
 const express = require('express');
 const router  = express.Router();
 
+
 const routeGuard = require('../configs/route-guard.config');
 
 const User = require('../models/User.model');
 const Transaction = require('../models/Transaction.model');
 const Account = require('../models/Account.model');
-const Category = require('../data/category.data.json')
+const listOfCategories = require('../data/category.data.js');
 
 router.get('/transactions', routeGuard, (req, res, next) => {
+  
+  const value = listOfCategories.values
+  
   Account.findOne({ owner: req.session.user._id})
   .then(currentAccounts => {
     console.log({currentAccounts})
     if (!currentAccounts) {
-      res.render('transactions-views/add-transaction', {
+      res.render('transactions-views/add-transaction', {value,
         errorMessage: "There is no Account.",
       });
       return;
     }
-    res.render('transactions-views/add-transaction', {Category, Account: currentAccounts});
+    console.log(` +++++++++++++++++++ ${listOfCategories.values}`)
+    res.render('transactions-views/add-transaction', {value});
   })
-  .catch(err => next(err))
-});
+  .catch(err => console.log(err))
+    });
 
 router.post("/transactions", routeGuard, (req, res, next) => {
 
