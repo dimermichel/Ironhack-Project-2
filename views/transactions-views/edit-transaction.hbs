@@ -1,42 +1,33 @@
 <h1>Edit Transaction</h1>
 
-<form id="form" class="form" action="/addTransaction" method="POST">
+<form id="form" class="form" action="/add-transaction" method="POST">
   <div class="quantity">
-      <label for="howMuchMoney">0.00</label>    
+
+    <input required type="text" name="amount" placeholder="{{transaction.amount}}">
   </div>
 
-    <div>
-      <label for="account">Choose account ></label>
-    </div>
+  <div>
+    <label for="account">Choose account ></label>
+    <select name="account" id="account">
+      <option value=""> </option>
+  </div>
 
-    <div>
-  <input required type="text" name="addMerchant" placeholder="Add merchant">
-    </div>
+  <div>
+    <input required type="text" name="merchant" placeholder="{{transaction.merchant}}">
+    <input value="date" type="date" name="date">{{transaction.date}}
+  </div>
 
-     <div>
-      <label for="account">Category ></label>
-    </div>
-
-    <div class="number">
-      <h3>1</h3>
-    </div>
-    <div class="number">
-      <h3>2</h3>
-    </div>
-    <div class="number">
-      <h3>3</h3>
-    </div>
-    <div class="number">
-      <h3>4</h3>
-    </div>
-    <div class="number">
-      <h3>5</h3>
-    </div>
-    <div class="number">
-      <h3>6</h3>
-    </div>
-    <div class="number">
-      <h3>7</h3>
-    </div>
+  <div>
+    <label for="category">Category ></label>
+    <select name="category" id="category">
+      <option value="category" selected>{{transaction.category}}</option>
+      {{#each value}}
+      <option value="">{{this}}</option>
+      {{/each}}
+    </select>
+    <input type="text" name="tags" placeholder="{{transaction.tags}}">
+    <input type="text" name="notes" placeholder="{{transaction.notes}}">
+    <button type="submit">Save</button>
+  </div>
 
 </form>
