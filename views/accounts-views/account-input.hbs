@@ -2,23 +2,26 @@
 
 <h1>Create a new Account</h1>
 
-<form  action="/accounts" method="POST">
+<form action="/accounts" method="POST">
   <div class="name">
     <div>
       <label for="accName">Account Name</label>
       <input required type="text" name="accName" placeholder="Enter account name">
     </div>
-<br>
-  <div>
-    <label for="accBalance">Account Balance</label>
-    <input required type="number" name="accBalance" placeholder="Enter account balance">
-  </div>
+    <br>
+    <div>
+      <label for="accBalance">Account Balance</label>
+      <input required type="number" name="accBalance" placeholder="Enter account balance">
+    </div>
 
 
-<br>
-<div></div>
-<div>
-  <button type="submit">Create Account</button>
-</div>
+    <br>
+    <div>
+      <button type="submit">Create Account</button>
+    </div>
 
 </form>
+
+{{#if errorMessage}}
+<div class="error-message">{{ errorMessage }}</div>
+{{/if}}
