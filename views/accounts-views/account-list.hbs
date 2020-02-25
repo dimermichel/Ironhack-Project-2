@@ -1,0 +1,17 @@
+<h1>List of Accounts</h1>
+
+<ul>
+  {{#each accounts}}
+  <li> <a href="/accounts/{{this._id}}/update"> {{this.accName}}</a>
+  <form action="/accounts/{{this._id}}/delete" method="post">
+  <button type="submit">X</button>
+  </form>
+  </li>
+  {{/each}}
+</ul>
+
+  {{#if errorMessage}}
+  <div class="error-message">{{ errorMessage }}</div>
+  {{/if}}
+
+<a href="/account-input">Add Account</a>

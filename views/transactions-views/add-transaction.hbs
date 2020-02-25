@@ -1,42 +1,71 @@
 <h1>Add Transaction</h1>
 
-<form id="form" class="form" action="/addTransaction" method="POST">
+<form id="form" class="form" action="/add-transaction" method="POST">
   <div class="quantity">
-      <label for="howMuchMoney">0.00</label>    
+
+    <input required type="text" name="amount" placeholder="0.00">
+
+    {{!-- <label id="howMuch" for="howMuchMoney">0.00</label> --}}
   </div>
 
-    <div>
-      <label for="account">Choose account ></label>
-    </div>
+  <div>
+    <label for="account">Choose account ></label>
+    <select name="account" id="account">
+      <option value=""> </option>
+  </div>
 
-    <div>
-  <input required type="text" name="addMerchant" placeholder="Add merchant">
-    </div>
+  <div>
+    <input required type="text" name="merchant" placeholder="Add merchant">
+    <input value="date" type="date" name="date">
+  </div>
 
-     <div>
-      <label for="account">Category ></label>
-    </div>
-
-    <div class="number">
+  <div>
+    <label for="category">Category ></label>
+    <select name="category" id="category">
+      <option value="" selected>Uncategorized</option>
+      {{#each value}}
+      <option value="">{{this}}</option>
+      {{/each}}
+    </select>
+    <input type="text" name="tags" placeholder="Add tags">
+    <input type="text" name="notes" placeholder="Some notes">
+    <button type="submit">Save</button>
+  </div>
+  {{!-- <div id="numbers-grid">
+    <div class="btn btn-light waves-effect">
       <h3>1</h3>
     </div>
-    <div class="number">
+    <div class="btn btn-light waves-effect">
       <h3>2</h3>
     </div>
-    <div class="number">
+    <div class="btn btn-light waves-effect">
       <h3>3</h3>
     </div>
-    <div class="number">
+    <div class="btn btn-light waves-effect">
       <h3>4</h3>
     </div>
-    <div class="number">
+    <div class="btn btn-light waves-effect">
       <h3>5</h3>
     </div>
-    <div class="number">
+    <div class="btn btn-light waves-effect">
       <h3>6</h3>
     </div>
-    <div class="number">
+    <div class="btn btn-light waves-effect">
       <h3>7</h3>
     </div>
+    <div class="btn btn-light waves-effect">
+      <h3>8</h3>
+    </div>
+    <div class="btn btn-light waves-effect">
+      <h3>9</h3>
+    </div>
+    <div class="btn btn-light waves-effect">
+    </div>
+    <div class="btn btn-light waves-effect">
+      <h3>0</h3>
+    </div>
+    <div class="btn btn-light waves-effect">
+    </div>
+  </div> --}}
 
 </form>
