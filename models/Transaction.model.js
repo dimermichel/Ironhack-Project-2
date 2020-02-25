@@ -27,7 +27,12 @@ const transactionSchema = new Schema(
       default: 'Uncategorized'
     },
     tags: [String],
-    notes: String
+    notes: String,
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: [true, 'You need an owner id'],
+    }
   },
   {
     timestamps: true,

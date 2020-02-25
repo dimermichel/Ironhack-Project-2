@@ -3,7 +3,7 @@
 <form id="form" class="form" action="/add-transaction" method="POST">
   <div class="quantity">
 
-    <input required type="text" name="howMuchMoney" placeholder="0.00">
+    <input required type="text" name="amount" placeholder="0.00">
 
     {{!-- <label id="howMuch" for="howMuchMoney">0.00</label> --}}
   </div>
@@ -11,25 +11,25 @@
   <div>
     <label for="account">Choose account ></label>
     <select name="account" id="account">
-      <option value="">Credit</option>
-      <option value="">Debit</option>
-      <option value="">Cash</option>
+      <option value=""> </option>
+  </div>
+
+  <div>
+    <input required type="text" name="merchant" placeholder="Add merchant">
+    <input value="date" type="date" name="date">
+  </div>
+
+  <div>
+    <label for="category">Category ></label>
+    <select name="category" id="category">
+      <option value="" selected>Uncategorized</option>
+      {{#each value}}
+      <option value="">{{this}}</option>
+      {{/each}}
     </select>
-  </div>
-
-  <div>
-    <input required type="text" name="addMerchant" placeholder="Add merchant">
-
-  </div>
-   
-  <div>
-    <label for="categoryInput">Category ></label> 
-    <select name="categInput" id="spriteTypeInput">
-      <option value="" selected>Choose one</option>
-          {{#each value}}
-          <option value="">{{this}}</option>
-          {{/each}}
-        </select>
+    <input type="text" name="tags" placeholder="Add tags">
+    <input type="text" name="notes" placeholder="Some notes">
+    <button type="submit">Save</button>
   </div>
   {{!-- <div id="numbers-grid">
     <div class="btn btn-light waves-effect">
