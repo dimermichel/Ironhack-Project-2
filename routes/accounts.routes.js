@@ -1,53 +1,146 @@
 const express = require('express');
 
 const router = express.Router();
+
 const routeGuard = require('../configs/route-guard.config');
 
+const User = require('../models/User.model');
 const Account = require('../models/Account.model');
 
-// *****************************************************************************
-// GET - to display the form for creating the account
-// *****************************************************************************
-
-//   make sure you see all the folders that are inside the "views" folder,
-//   but you don't have to specify "views" folder tho
-//   in res.render() we don't use '/'
-//   before we put the the path to the hbs file we want to render
-//   localhost:3000/account
-router.get('/accounts-input', (req, res) =>
-  res.render('accounts-views/account'),
-);
-
-// *****************************************************************************
-// POST route to create a new account in the DB
-// *****************************************************************************
-
-// <form action="/account" method="POST">
-router.post('/account', (req, res) => {
-  Account.create(req.body)
-    .then(savedAccount => {
-      // console.log('Successfully saved: ', savedAccount);
-
-      // take us to the page that already exist in our app
-      //      ^       ->  this is the URL so it HAS to start with '/'
-      //      |      |
-      //      |      |
-      res.redirect('/account');
+router.get('/accounts', routeGuard, (req, res, next) => {
+  Account.find({ owner: req.session.user._id })
+    .then(currentAccounts => {
+      console.log({ currentAccounts });
+      if (!currentAccounts) {
+        res.render('accounts-views/account-list', {
+          errorMessage: 'There is no Account.',
+        });
+        return;
+      }
+      console.log('Helooooooooooooooooooooooooooooooo!!!!');
+      console.log(currentAccounts);
+      res.render('accounts-views/account-list', { accounts: currentAccounts });
     })
-    .catch(err => console.log(`Error while saving author in the DB: ${err}`));
+    .catch(err => console.log(err));
 });
 
-// *****************************************************************************
-// GET all accounts from the DB
-// *****************************************************************************
+router.get('/account-input', routeGuard, (req, res, next) => {
+  Account.findOne({ owner: req.session.user._id })
+    .then(currentAccounts => {
+      console.log({ currentAccounts });
+      if (!currentAccounts) {
+        res.render('accounts-views/account-input', {
+          errorMessage: 'There is no Account.',
+        });
+        return;
+      }
 
-router.get('/account', (req, res) => {
-  Account.find() // <-- .find() method gives us always an ARRAY back
-    .then(accountsFromDB => {
-      // console.log('Accounts from DB: ========', accountsFromDB);
-      res.render('accounts-views/account', { account: accountsFromDB });
+      res.render('accounts-views/account-input');
     })
-    .catch(err => console.log(`Error while getting authors from DB: ${err}`));
+    .catch(err => console.log(err));
 });
+
+router.post('/accounts', routeGuard, (req, res, next) => {
+  const { accName, accBalance } = req.body;
+
+  console.log('creating account ============>, ==============> ', {
+    req: req.body,
+  });
+
+  if (accName === '' || accBalance === '') {
+    res.render('accounts-views/account-input', {
+      errorMessage: 'Please fill up the account form',
+    });
+    return;
+  }
+  // We need to all extra validation to the forms all fill the missing information
+  const owner = req.session.user._id;
+
+  Account.create({ accName, accBalance, owner })
+    .then(() => {
+      res.redirect('/accounts');
+    })
+    .catch(error => console.log(error));
+});
+
+router.get('/accounts/:id/update', routeGuard, (req, res, next) => {
+  Account.findOne({ owner: req.session.user._id })
+    .then(currentAccounts => {
+      console.log({ currentAccounts });
+      if (!currentAccounts) {
+        res.render('accounts-views/account-list', {
+          errorMessage: 'There is no Account to update',
+        });
+        return;
+      }
+
+      res.render('accounts-views/account-edit', { account: currentAccounts });
+    })
+    .catch(err => console.log(err));
+});
+
+router.post('/accounts/:id/update'),
+  routeGuard,
+  (req, res, next) => {
+    console.log(req.body);
+    const { accName, accBalance } = req.body;
+    if (accName === '' || accBalance === '') {
+      res.redirect(`/accounts`);
+      return;
+    }
+    console.log('que ota');
+    Account.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
+      .then(updatedAccount => res.redirect('/accounts'))
+      .catch(err => console.log(err));
+  };
+
+// router.get('/transactions/:id', routeGuard, (req, res, next) => {
+//   Transaction.findById(req.params.id)
+//   .populate('account')
+//   .then(detailTransaction => {
+//     res.render('transactions-views/view-transaction', {Transaction: detailTransaction});
+//   })
+//   .catch(err => console.log(err))
+// });
+
+// router.post('/transactions/:id', routeGuard, (req, res, next) => {
+//   Transaction.findByIdAndUpdate(req.params.id, {$set: req.body})
+//   .then(transaction => {
+//     res.redirect('transactions-views/view-transaction');
+//   })
+//   .catch(err => console.log(err))
+// });
+
+// router.post('/transactions/:id/delete', routeGuard, (req, res, next) => {
+
+//   Transaction.findByIdAndRemove(req.params.id)
+//     .then(transaction => {
+//       res.redirect('transactions-views/view-transaction');
+//     })
+//     .catch(err => console.log(err));
+// });
+
+// router.get('/transactions/:id/edit', routeGuard, (req, res, next) => {
+
+//   Transaction.findById(req.params.id)
+//   .populate('account')
+//   .then(transaction => {
+//     Account.find({ owner: req.session.user._id })
+//       .then( availableAccounts => {
+//         const newAvailableAccounts =  availableAccounts.filter(
+//           oneAccount => {
+//               if (transaction.account.equals(oneAccount._id)) {
+//                 return false
+//               }
+//             return true
+//           })
+//         res.render("transactions-views/view-transaction", {transaction, newAvailableAccounts})
+//       })
+//       .catch(error => console.log(error))
+//   })
+//   .catch((error) => {
+//     console.log(error);
+//   })
+// });
 
 module.exports = router;
