@@ -2,7 +2,7 @@
 
 <ul>
   {{#each transaction}}
-  <li><a href="/transactions/{{this._id}}">{{this.merchant}} {{this.amount}}</a></li>
+  <li><a href="/transactions/{{this._id}}">{{this.merchant}}</a> ................. Amount: ${{this.amount}}</li>
   <form action="/transaction/{{this._id}}/delete" method="POST">
   <button type="submit">
     Delete

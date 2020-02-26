@@ -17,6 +17,7 @@ const transactionSchema = new Schema(
       type: Schema.Types.ObjectId, 
       ref: 'Account' 
     },
+    lastAccBalance: Number,
     merchant: String,
     date: {
       type: Date,
@@ -26,7 +27,7 @@ const transactionSchema = new Schema(
       type: String,
       default: 'Uncategorized'
     },
-    tags: [String],
+    tags: String,
     notes: String,
     owner: {
       type: Schema.Types.ObjectId,

@@ -14,10 +14,10 @@ const accountSchema = new Schema(
       type: Number,
       required: [true, 'Please insert data.'],
     },
-    transactions: {
-      type: Array,
-    },
-
+    // We don't need to add an Array of transactions beacause each transaction already has the account ID
+    // transactions: {
+    //   type: Array,
+    // },
     owner: {
       type: Schema.Types.ObjectId,
       ref: 'User',
