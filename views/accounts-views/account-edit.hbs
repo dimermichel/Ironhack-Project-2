@@ -1,11 +1,11 @@
 <h1>Edit Account</h1>
 
 <form action="/accounts/{{account._id}}/update" method="POST">
-<label for="accName">Account Name</label>
+<label for="accName">Account Name: </label>
       <input required type="text" name="accName" value="{{account.accName}}">
-<label for="accBalance">Account Balance</label>
-      <input required type="text" name="accBalance" value="{{account.accBalance}}">
-
+<label for="accBalance">Account Balance: </label>
+      <label>$ {{account.accBalance}} </label>
+      {{!-- <input required type="text" name="accBalance" value="{{account.accBalance}}"> --}}
 
 <button type="submit">Save Changes </button>      
 </form>

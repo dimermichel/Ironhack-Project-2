@@ -17,7 +17,7 @@ const transactionSchema = new Schema(
       type: Schema.Types.ObjectId, 
       ref: 'Account' 
     },
-    lastAccBalance: Number,
+    // lastAccBalance: Number,
     merchant: String,
     date: {
       type: Date,
