@@ -2,29 +2,40 @@
 
 <form id="form" class="form" action="/add-transaction" method="POST">
   <div class="quantity">
-
-    <input required type="text" name="amount" placeholder="0.00">
-
-    {{!-- <label id="howMuch" for="howMuchMoney">0.00</label> --}}
+    <input required type="number" name="amount" placeholder="0.00">
   </div>
 
+  {{#if errorMessage}}
+    <div class="error-message">{{ errorMessage }}</div>
+  {{/if}}
+
   <div>
-    <label for="account">Choose account ></label>
+    <label for="account">Choose account</label>
     <select name="account" id="account">
-      <option value=""> </option>
+      {{#each account}}
+        <option value="{{this._id}}">{{this.accName}}</option>
+      {{/each}}
   </div>
 
   <div>
     <input required type="text" name="merchant" placeholder="Add merchant">
-    <input value="date" type="date" name="date">
+    <input id="today" type="date" name="date" value="{{today}}">
   </div>
 
   <div>
-    <label for="category">Category ></label>
+    <label for="type">Type</label>
+    <select name="type" id="type">
+      <option value="debit" selected>Debit</option>
+      <option value="credit">Credit</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="category">Category</label>
     <select name="category" id="category">
-      <option value="" selected>Uncategorized</option>
-      {{#each value}}
-      <option value="">{{this}}</option>
+      <option value="Uncategorized" selected >Uncategorized</option>
+      {{#each category}}
+      <option value="{{this}}">{{this}}</option>
       {{/each}}
     </select>
     <input type="text" name="tags" placeholder="Add tags">
@@ -67,5 +78,4 @@
     <div class="btn btn-light waves-effect">
     </div>
   </div> --}}
-
 </form>

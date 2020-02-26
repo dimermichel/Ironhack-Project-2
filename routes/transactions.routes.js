@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const moment = require('moment');
 
 const routeGuard = require('../configs/route-guard.config');
 
@@ -10,42 +10,49 @@ const Account = require('../models/Account.model');
 const listOfCategories = require('../data/category.data.js');
 
 router.get('/transactions', routeGuard, (req, res, next) => {
+
+  //Looking for all transactions of the logged user
   Transaction.find({
       owner: req.session.user._id
     })
-    .then(currentTransaction => {
-      console.log({
-        currentTransaction
-      })
-      if (!currentTransaction) {
+    .then(currentTransactions => {
+      //console.log({ currentTransaction });
+      if (!currentTransactions) {
         res.render('transactions-views/show-transactions', {
-          transaction: currentTransaction,
+          transaction: currentTransactions,
           errorMessage: "There is no Transaction."
         });
         return;
       }
-      res.render('transactions-views/show-transactions', {transaction: currentTransaction}); 
+      res.render('transactions-views/show-transactions', {
+        transaction: currentTransactions
+      });
     })
     .catch(err => console.log(err))
 });
 
 router.get('/add-transaction', routeGuard, (req, res, next) => {
-  const value = listOfCategories.values
-  Account.findOne({
+  const category = listOfCategories.values
+  //Setup Todays date to defaut create transaction date
+  const today = moment(new Date()).format('YYYY-MM-DD')
+  console.log(today)
+  Account.find({
       owner: req.session.user._id
     })
-    .then(currentAccount => {
-      if (!currentAccount) {
-        // console.log(`++++++++++++++++ HELLO`)
+    .then(currentAccounts => {
+      //Checking if the user has an Account
+      if (currentAccounts[0] === undefined) {
         res.render('transactions-views/add-transaction', {
-          value,
-          errorMessage: "There is no account."
+          category,
+          errorMessage: "You don't have an Account.",
+          today
         })
-        return
+        return;
       }
       res.render('transactions-views/add-transaction', {
-        value,
-        currentAccount
+        category,
+        account: currentAccounts,
+        today
       })
     })
     .catch(err => next(err))
@@ -55,7 +62,8 @@ router.post("/add-transaction", routeGuard, (req, res, next) => {
 
   let {
     amount,
-    // account,
+    account,
+    type,
     merchant,
     date,
     category,
@@ -63,88 +71,200 @@ router.post("/add-transaction", routeGuard, (req, res, next) => {
     notes
   } = req.body;
 
-  if (amount === "") {
+  let lastAccBalance = 0;
+
+  if (amount === "" || merchant === "" || date === "") {
     res.render("transactions-views/add-transaction", {
-      errorMessage: "Please fill up all the forms."
+      errorMessage: "Please fill up the required forms."
     });
     return;
   }
 
-  let owner = req.session.user._id
-  Transaction.create({
-    amount,
-    // type,
-    // account,
-    merchant,
-    date,
-    category,
-    tags,
-    notes,
-    owner
+  // Setup to get the last Account Balance
+  Account.findOne({
+      _id: account
     })
-    .then(() => {
-      res.redirect("/transactions")
+    .then(currentAccount => {
+      console.log(currentAccount);
+      lastAccBalance = currentAccount.accBalance;
+      let owner = req.session.user._id
+      Transaction.create({
+          amount,
+          type,
+          account,
+          lastAccBalance,
+          merchant,
+          date,
+          category,
+          tags,
+          notes,
+          owner
+        })
+        // Here, we do the Math Adding or Subtracting from the Account Balance amount
+        .then(createdTransaction => {
+          console.log(createdTransaction);
+          Account.findOne({
+              _id: createdTransaction.account
+            })
+            .then(currentAccount => {
+              console.log(currentAccount);
+              let balance = currentAccount.accBalance
+              if (createdTransaction.type === 'debit') {
+                balance = balance - createdTransaction.amount;
+              } else {
+                balance = balance + createdTransaction.amount;
+              }
+              currentAccount.accBalance = balance;
+              //currentAccount.transactions.push(createdTransaction._id);
+              currentAccount.save();
+            });
+        })
+        .then(() => {
+          res.redirect("/transactions")
+        })
     })
     .catch(error => console.log(error))
 });
 
 router.get('/transactions/:id', routeGuard, (req, res, next) => {
+  const category = listOfCategories.values
   Transaction.findById(req.params.id)
     .populate('account')
     .then(detailTransaction => {
+      console.log(detailTransaction)
+      //filter the  Available Categories
+      const newAvailableCategories = category.filter(
+        oneCategory => {
+          if (detailTransaction.category === oneCategory) {
+            return false
+          }
+          return true
+        })
+
+      // Parse the date from ISO to Date JS using Moment.js
+      let str = detailTransaction.date;
+      let date = moment(str);
+      let dateComponent = date.utc().format('YYYY-MM-DD');
+
+      //Render all the Data into the edit Transaction View
       res.render('transactions-views/edit-transaction', {
-        transaction: detailTransaction
+        transaction: detailTransaction,
+        category: newAvailableCategories,
+        date: dateComponent
       });
-      console.log(`THIS IS OUR TRANSACTION -------------- ${transaction}`)
+
     })
     .catch(err => console.log(err))
 });
 
 router.post('/transactions/:id', routeGuard, (req, res, next) => {
-  Transaction.findByIdAndUpdate(req.params.id, {
-      $set: req.body
+  //Setup a variable to calculate if it was difference in the new amount
+  let diffAmount = 0;
+  let diffType = false;
+
+  const {
+    amount,
+    type,
+    merchant,
+    date,
+    category,
+    tags,
+    notes
+  } = req.body;
+
+  if (amount === "" || merchant === "" || date === "") {
+    res.render('transactions-views/edit-transaction', {
+      errorMessage: 'Please fill up the required forms.',
+    });
+    return;
+  }
+  Transaction.findOne({
+      _id: req.params.id
     })
-    .then(transaction => {
-      res.redirect('transactions-views/show-transaction');
-    })
-    .catch(err => console.log(err))
+    .then(currentTransaction => {
+      // Verify the difference in the amount
+      if (currentTransaction.amount !== amount) {
+        diffAmount = currentTransaction.amount - amount;
+        //if (diffAmount < 0) diffAmount = diffAmount * -1
+      }
+
+      if (currentTransaction.type !== type) {
+        diffType = true;
+      }
+   
+      currentTransaction.amount = amount;
+      currentTransaction.type = type;
+      currentTransaction.merchant = merchant;
+      currentTransaction.date = date;
+      currentTransaction.category = category;
+      currentTransaction.tags = tags;
+      currentTransaction.notes = notes;
+      currentTransaction.save()
+        .then(updatedTransaction => {
+          console.log(updatedTransaction)
+          //Update the Account Balance
+          Account.findOne({
+              _id: updatedTransaction.account
+            })
+            .then(currentAccount => {
+              let balance = Number(currentAccount.accBalance)
+              console.log(currentAccount);
+              console.log(`    Amount: ------> ${amount}`)
+              console.log(`diffAmount: ------> ${diffAmount}`);
+              console.log(` diffType: ------> ${diffType}`);
+              console.log(`  balance: ------> ${balance}`);
+              console.log(`     type: ------> ${updatedTransaction.type}`);
+              // if (diffAmount === 0 && diffType === false) return
+              if (diffAmount !== 0 && diffType === false) {
+                if (updatedTransaction.type === 'debit') {
+                  // This part is working
+                  balance = balance + diffAmount;
+                } else {
+                  // This part is working
+                  balance = balance - diffAmount;
+                }
+              } else if (diffAmount === 0 && diffType === true) {
+                if (updatedTransaction.type === 'debit') {
+                  // This part is working
+                  balance = balance - (amount * 2);
+                } else {
+                  // This part is working
+                  balance = balance + (amount * 2);
+                }
+              } else if (diffAmount !== 0 && diffType === true) {
+                if (updatedTransaction.type === 'debit') {
+                  // This part is working
+                  if (diffAmount < 0) balance = -(Number(amount) + Number(diffAmount)) + Number(balance) - Number(amount);
+                  // This part is working
+                  if (diffAmount > 0) balance = -(Number(diffAmount) + Number(amount)) + Number(balance) - Number(amount);
+                } else {
+                  // This part is working
+                  if(diffAmount < 0) balance = Number(balance) + (Number(diffAmount) + Number(amount)) + Number(amount);
+                  if(diffAmount > 0) balance = Number(balance) + Number(diffAmount) + Number(amount) + Number(amount);
+                }
+              }
+              console.log({
+                the_balance: balance
+              });
+              currentAccount.accBalance = balance;
+              //currentAccount.transactions.push(createdTransaction._id);
+              currentAccount.save()
+                .then(result => {
+                  console.log(result)
+                  res.redirect('/transactions')
+                }).catch(err => console.log(err))
+            }).catch(err => console.log(err))
+        }).catch(err => console.log(err))
+    }).catch(err => console.log(err))
 });
 
-router.post('/transactions/:id/delete', routeGuard, (req, res, next) => {
+router.post('/transaction/:id/delete', routeGuard, (req, res, next) => {
 
   Transaction.findByIdAndRemove(req.params.id)
     .then(transaction => {
-      res.redirect('transactions-views/view-transaction');
+      res.redirect('/transactions');
     })
     .catch(err => console.log(err));
-});
-
-router.get('/transactions/:id/edit', routeGuard, (req, res, next) => {
-
-  Transaction.findById(req.params.id)
-    .populate('account')
-    .then(transaction => {
-      Account.find({
-          owner: req.session.user._id
-        })
-        .then(availableAccounts => {
-          const newAvailableAccounts = availableAccounts.filter(
-            oneAccount => {
-              if (transaction.account.equals(oneAccount._id)) {
-                return false
-              }
-              return true
-            })
-          res.render("transactions-views/view-transaction", {
-            transaction,
-            newAvailableAccounts
-          })
-        })
-        .catch(error => console.log(error))
-    })
-    .catch((error) => {
-      console.log(error);
-    })
 });
 
 module.exports = router;
