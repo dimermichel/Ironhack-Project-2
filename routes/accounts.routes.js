@@ -4,6 +4,7 @@ const router = express.Router();
 const routeGuard = require('../configs/route-guard.config');
 
 const Account = require('../models/Account.model');
+const Transaction = require('../models/Transaction.model');
 
 router.get('/accounts', routeGuard, (req, res, next) => {
   Account.find({ owner: req.session.user._id })
@@ -66,8 +67,8 @@ router.get('/accounts/:id/update', routeGuard, (req, res, next) => {
 });
 
 router.post('/accounts/:id/update', routeGuard, (req, res, next) => {
-  const { accName, accBalance } = req.body;
-  if (accName === '' || accBalance === '') {
+  const { accName } = req.body;
+  if (accName === '') {
     res.render('accounts-views/account-edit', {
       errorMessage: 'Please fill the forms',
     });
@@ -76,7 +77,10 @@ router.post('/accounts/:id/update', routeGuard, (req, res, next) => {
   Account.findOne({ _id: req.params.id })
     .then(currentAccount => {
       currentAccount.accName = accName;
-      currentAccount.accBalance = accBalance;
+      // We are going to block the User to update the Balance
+      // otherwise there is no point in track the User expenses
+      // and the complexity to track this grows exponencialy
+      // currentAccount.accBalance = accBalance;
       currentAccount.save();
     }).then(res.redirect('/accounts'))
     .catch(err => console.log(err))
@@ -86,8 +90,23 @@ router.post('/accounts/:id/delete', routeGuard, (req, res, next) => {
 
   Account.findByIdAndRemove(req.params.id)
     .then(account => {
-      res.redirect('/accounts');
-    })
+      Transaction.find({account: req.params.id})
+      .then(result => {
+        console.log(result)
+        // Deleting all the transactions that are linked to this account
+        if (result) {
+          Transaction.deleteMany({account: req.params.id})
+          .then(deletedTransactions => {
+            console.log('========================================================');
+            console.log({deletedTransactions});
+            console.log('========================================================');
+          })
+        } else {
+          res.redirect('/accounts');
+          return
+        }
+      })
+    }).then(() => res.redirect('/accounts'))
     .catch(err => console.log(err));
 });
 

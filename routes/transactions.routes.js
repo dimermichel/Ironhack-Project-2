@@ -4,7 +4,6 @@ const moment = require('moment');
 
 const routeGuard = require('../configs/route-guard.config');
 
-const User = require('../models/User.model');
 const Transaction = require('../models/Transaction.model');
 const Account = require('../models/Account.model');
 const listOfCategories = require('../data/category.data.js');
@@ -33,7 +32,7 @@ router.get('/transactions', routeGuard, (req, res, next) => {
 
 router.get('/add-transaction', routeGuard, (req, res, next) => {
   const category = listOfCategories.values
-  //Setup Todays date to defaut create transaction date
+  //Setup Todays date to defaut when creating transaction date
   const today = moment(new Date()).format('YYYY-MM-DD')
   console.log(today)
   Account.find({
@@ -79,49 +78,39 @@ router.post("/add-transaction", routeGuard, (req, res, next) => {
     });
     return;
   }
-
-  // Setup to get the last Account Balance
-  Account.findOne({
-      _id: account
+  let owner = req.session.user._id
+  Transaction.create({
+      amount,
+      type,
+      account,
+      lastAccBalance,
+      merchant,
+      date,
+      category,
+      tags,
+      notes,
+      owner
     })
-    .then(currentAccount => {
-      console.log(currentAccount);
-      lastAccBalance = currentAccount.accBalance;
-      let owner = req.session.user._id
-      Transaction.create({
-          amount,
-          type,
-          account,
-          lastAccBalance,
-          merchant,
-          date,
-          category,
-          tags,
-          notes,
-          owner
+    // The Math of Adding or Subtracting from the Account Balance amount
+    .then(createdTransaction => {
+      console.log(createdTransaction);
+      Account.findOne({
+          _id: createdTransaction.account
         })
-        // Here, we do the Math Adding or Subtracting from the Account Balance amount
-        .then(createdTransaction => {
-          console.log(createdTransaction);
-          Account.findOne({
-              _id: createdTransaction.account
-            })
-            .then(currentAccount => {
-              console.log(currentAccount);
-              let balance = currentAccount.accBalance
-              if (createdTransaction.type === 'debit') {
-                balance = balance - createdTransaction.amount;
-              } else {
-                balance = balance + createdTransaction.amount;
-              }
-              currentAccount.accBalance = balance;
-              //currentAccount.transactions.push(createdTransaction._id);
-              currentAccount.save();
-            });
-        })
-        .then(() => {
-          res.redirect("/transactions")
-        })
+        .then(currentAccount => {
+          console.log(currentAccount);
+          let balance = currentAccount.accBalance
+          if (createdTransaction.type === 'debit') {
+            balance = balance - createdTransaction.amount;
+          } else {
+            balance = balance + createdTransaction.amount;
+          }
+          currentAccount.accBalance = balance;
+          currentAccount.save();
+        });
+    })
+    .then(() => {
+      res.redirect("/transactions")
     })
     .catch(error => console.log(error))
 });
@@ -132,7 +121,7 @@ router.get('/transactions/:id', routeGuard, (req, res, next) => {
     .populate('account')
     .then(detailTransaction => {
       console.log(detailTransaction)
-      //filter the  Available Categories
+      //Filtering the  Available Categories
       const newAvailableCategories = category.filter(
         oneCategory => {
           if (detailTransaction.category === oneCategory) {
@@ -141,7 +130,7 @@ router.get('/transactions/:id', routeGuard, (req, res, next) => {
           return true
         })
 
-      // Parse the date from ISO to Date JS using Moment.js
+      // Parse the date from ISO to Date JS using Moment.js to display in the Date Input
       let str = detailTransaction.date;
       let date = moment(str);
       let dateComponent = date.utc().format('YYYY-MM-DD');
@@ -158,7 +147,7 @@ router.get('/transactions/:id', routeGuard, (req, res, next) => {
 });
 
 router.post('/transactions/:id', routeGuard, (req, res, next) => {
-  //Setup a variable to calculate if it was difference in the new amount
+  //Setup variables to calculate if it was a difference in the new amount
   let diffAmount = 0;
   let diffType = false;
 
@@ -185,13 +174,12 @@ router.post('/transactions/:id', routeGuard, (req, res, next) => {
       // Verify the difference in the amount
       if (currentTransaction.amount !== amount) {
         diffAmount = currentTransaction.amount - amount;
-        //if (diffAmount < 0) diffAmount = diffAmount * -1
       }
 
       if (currentTransaction.type !== type) {
         diffType = true;
       }
-   
+
       currentTransaction.amount = amount;
       currentTransaction.type = type;
       currentTransaction.merchant = merchant;
@@ -201,56 +189,45 @@ router.post('/transactions/:id', routeGuard, (req, res, next) => {
       currentTransaction.notes = notes;
       currentTransaction.save()
         .then(updatedTransaction => {
-          console.log(updatedTransaction)
+          // console.log(updatedTransaction)
           //Update the Account Balance
           Account.findOne({
               _id: updatedTransaction.account
             })
             .then(currentAccount => {
               let balance = Number(currentAccount.accBalance)
-              console.log(currentAccount);
-              console.log(`    Amount: ------> ${amount}`)
-              console.log(`diffAmount: ------> ${diffAmount}`);
-              console.log(` diffType: ------> ${diffType}`);
-              console.log(`  balance: ------> ${balance}`);
-              console.log(`     type: ------> ${updatedTransaction.type}`);
-              // if (diffAmount === 0 && diffType === false) return
+              // console.log(currentAccount);
+              // console.log(`    Amount: ------> ${amount}`)
+              // console.log(`diffAmount: ------> ${diffAmount}`);
+              // console.log(`  diffType: ------> ${diffType}`);
+              // console.log(`   balance: ------> ${balance}`);
+              // console.log(`      type: ------> ${updatedTransaction.type}`);
               if (diffAmount !== 0 && diffType === false) {
                 if (updatedTransaction.type === 'debit') {
-                  // This part is working
                   balance = balance + diffAmount;
                 } else {
-                  // This part is working
                   balance = balance - diffAmount;
                 }
               } else if (diffAmount === 0 && diffType === true) {
                 if (updatedTransaction.type === 'debit') {
-                  // This part is working
                   balance = balance - (amount * 2);
                 } else {
-                  // This part is working
                   balance = balance + (amount * 2);
                 }
               } else if (diffAmount !== 0 && diffType === true) {
                 if (updatedTransaction.type === 'debit') {
-                  // This part is working
                   if (diffAmount < 0) balance = -(Number(amount) + Number(diffAmount)) + Number(balance) - Number(amount);
-                  // This part is working
                   if (diffAmount > 0) balance = -(Number(diffAmount) + Number(amount)) + Number(balance) - Number(amount);
                 } else {
-                  // This part is working
-                  if(diffAmount < 0) balance = Number(balance) + (Number(diffAmount) + Number(amount)) + Number(amount);
-                  if(diffAmount > 0) balance = Number(balance) + Number(diffAmount) + Number(amount) + Number(amount);
+                  if (diffAmount < 0) balance = Number(balance) + (Number(diffAmount) + Number(amount)) + Number(amount);
+                  if (diffAmount > 0) balance = Number(balance) + Number(diffAmount) + Number(amount) + Number(amount);
                 }
               }
-              console.log({
-                the_balance: balance
-              });
+              // console.log({the_balance: balance});
               currentAccount.accBalance = balance;
-              //currentAccount.transactions.push(createdTransaction._id);
               currentAccount.save()
                 .then(result => {
-                  console.log(result)
+                  // console.log(result)
                   res.redirect('/transactions')
                 }).catch(err => console.log(err))
             }).catch(err => console.log(err))
@@ -259,12 +236,34 @@ router.post('/transactions/:id', routeGuard, (req, res, next) => {
 });
 
 router.post('/transaction/:id/delete', routeGuard, (req, res, next) => {
-
-  Transaction.findByIdAndRemove(req.params.id)
-    .then(transaction => {
-      res.redirect('/transactions');
+  // Find the transaction we want to delete and prepare the data to modify the Account Balance
+  Transaction.findOne({
+      _id: req.params.id
     })
-    .catch(err => console.log(err));
+    .then(transaction => {
+      console.log()
+      // Check the account and do the Math to add or subtr the accBalance
+      Account.findOne({
+          _id: transaction.account
+        })
+        .then(currentAccount => {
+          console.log(currentAccount);
+          let balance = currentAccount.accBalance
+          if (transaction.type === 'debit') {
+            balance = balance + transaction.amount;
+          } else {
+            balance = balance - transaction.amount;
+          }
+          currentAccount.accBalance = balance;
+          currentAccount.save()
+        })
+        .then(result => {
+          //Finally delete the Transaction
+          Transaction.findByIdAndRemove(req.params.id)
+            .then(() => res.redirect('/transactions'))
+        })
+        .catch(err => console.log(err));
+    })
 });
 
 module.exports = router;

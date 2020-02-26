@@ -2,11 +2,10 @@
 
 <ul>
   {{#each accounts}}
-  <li> <a href="/accounts/{{this._id}}/update"> {{this.accName}}</a>
+  <li> <a href="/accounts/{{this._id}}/update"> {{this.accName}}</a> ................. Balance: ${{this.accBalance}} </li>
   <form action="/accounts/{{this._id}}/delete" method="post">
   <button type="submit">X</button>
   </form>
-  </li>
   {{/each}}
 </ul>
 
