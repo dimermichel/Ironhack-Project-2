@@ -59,9 +59,25 @@ router.get('/accounts/:id/update', routeGuard, (req, res, next) => {
         return;
       }
 
-      res.render('accounts-views/account-edit', {
-        account: currentAccounts
-      });
+      Transaction.find({
+        owner: req.session.user._id
+      })
+      .then(currentTransactions => {
+        //console.log({ currentTransactions });
+        if (!currentTransactions) {
+          res.render('accounts-views/account-list', {
+            account: currentAccounts,
+            transaction: currentTransactions,
+            errorMessage: "There is no Transactions in this Account."
+          });
+          return;
+        }
+        res.render('accounts-views/account-edit', {
+          account: currentAccounts,
+          transaction: currentTransactions
+        });
+      })
+      .catch(err => console.log(err))      
     })
     .catch(err => console.log(err));
 });
