@@ -4,11 +4,11 @@ body {
   font-family: 'Roboto', sans-serif;
   padding: 0;
   margin: 0;
-  color: #1A1A1A;
+  color: #1a1a1a;
 }
 
 a {
-  color: #00B7FF;
+  color: #00b7ff;
 }
 
 h1 {
@@ -56,14 +56,14 @@ h1 {
   padding: 8px 16px;
   text-decoration: none;
   text-transform: uppercase;
-  transition: .3s ease background;
+  transition: 0.3s ease background;
   width: 100%;
 }
 
 .form button:hover {
   background: #fff;
   color: #43a3e6;
-  transition: .3s ease background;
+  transition: 0.3s ease background;
 }
 
 .name {
@@ -78,9 +78,8 @@ h1 {
   padding-right: 1vw;
 }
 
-
 .error-message {
-  background: #F02B63;
+  background: #f02b63;
   box-sizing: border-box;
   color: #fff;
   margin: 20px auto;
@@ -98,7 +97,7 @@ h1 {
   display: flex;
 }
 
-.flex a{
+.flex a {
   font-size: large;
   padding-right: 1vw;
 }
@@ -110,35 +109,36 @@ h1 {
 
 /* Header */
 header > div {
-    top: 0;
-    position: fixed;
-    z-index: 9999;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: white;
-    box-shadow: 1px 1px 4px 0 rgba(0,0,0,.1);
+  top: 0;
+  position: fixed;
+  z-index: 9999;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.1);
 }
 
 nav {
-    width: 60%;
+  width: 60%;
 }
 
-nav label, #hamburger {
-    display: none;
+nav label,
+#hamburger {
+  display: none;
 }
 
 nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 nav a {
-    text-decoration: none;
-    color: black;
+  text-decoration: none;
+  color: black;
 }
 
 nav button {
@@ -152,8 +152,8 @@ nav button {
 }
 
 .codeexpress-logo {
-    width: 55px;
-    padding: 10px;
+  width: 55px;
+  padding: 10px;
 }
 
 .profile-img {
@@ -163,58 +163,86 @@ nav button {
 
 /* Media Queries */
 
-
 @media (max-width: 750px) {
+  header > div {
+    flex-flow: column wrap;
+  }
 
-    header>div {
-        flex-flow: column wrap;
-    }
+  nav {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
 
-    nav {
-        width: 100%;
-        padding: 0;
-        margin: 0;
-    }
+  nav ul {
+    padding: 0;
+  }
 
-    nav ul {
-        padding: 0;
-    }
+  nav a {
+    color: #1a1a1a;
+    font-weight: 500;
+    cursor: pointer;
+  }
 
-    nav a {
-        color: #1A1A1A;
-        font-weight: 500;
-        cursor: pointer;
-    }
+  /* Show Hamburger */
+  nav label {
+    display: inline-block;
+    color: rgb(25, 25, 25);
+    font-style: normal;
+    font-size: 2em;
+    padding: 10px;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+  }
 
-    /* Show Hamburger */
-    nav label {
-        display: inline-block;
-        color: rgb(25, 25, 25);
-        font-style: normal;
-        font-size: 2em;
-        padding: 10px;
-        position: absolute;
-        top: 15px;
-        right: 20px;
-    }
+  /* Break down menu items into vertical */
 
-    /* Break down menu items into vertical */
-  
-    nav ul li {
-        font-size: 2em;
-        text-align: center;
-        border-top: 1px solid rgba(0, 0, 0, .1);
-        display: block;
-    }
+  nav ul li {
+    font-size: 2em;
+    text-align: center;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    display: block;
+  }
 
-    /* Toggle show/hide menu on checkbox click */
-    #page-nav ul {
-        display: none;
-    }
+  /* Toggle show/hide menu on checkbox click */
+  #page-nav ul {
+    display: none;
+  }
 
-    #page-nav input[type=checkbox]:checked ~ ul {
-        animation: fadein 1s forwards;
-        display: block;
+  #page-nav input[type='checkbox']:checked ~ ul {
+    animation: fadein 1s forwards;
+    display: block;
+  }
+}
 
-    }
+tbody {
+  font-size: 16px;
+  background-color: transparent;
+}
+.thead {
+  background-color: #1a1a1a;
+  font-size: 18px;
+  color: white;
+  font-weight: normal;
+}
+.btnS {
+  float: right;
+  background-color: hotpink;
+  border: none;
+  color: white;
+  padding: 5px 15px;
+  text-align: left;
+  font-size: 14px;
+}
+.btnS:focus {
+  outline: none;
+}
+.btnS:after {
+  content: 'Less';
+  float: right;
+  margin-left: 3px;
+}
+.btnS.collapsed:after {
+  content: 'More';
 }

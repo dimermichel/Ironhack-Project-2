@@ -3,10 +3,10 @@ body {
   font-family: 'Roboto', sans-serif;
   padding: 0;
   margin: 0;
-  color: #1A1A1A; }
+  color: #1a1a1a; }
 
 a {
-  color: #00B7FF; }
+  color: #00b7ff; }
 
 h1 {
   text-align: center; }
@@ -48,13 +48,13 @@ h1 {
   padding: 8px 16px;
   text-decoration: none;
   text-transform: uppercase;
-  transition: .3s ease background;
+  transition: 0.3s ease background;
   width: 100%; }
 
 .form button:hover {
   background: #fff;
   color: #43a3e6;
-  transition: .3s ease background; }
+  transition: 0.3s ease background; }
 
 .name {
   display: flex; }
@@ -66,7 +66,7 @@ h1 {
   padding-right: 1vw; }
 
 .error-message {
-  background: #F02B63;
+  background: #f02b63;
   box-sizing: border-box;
   color: #fff;
   margin: 20px auto;
@@ -104,7 +104,8 @@ header > div {
 nav {
   width: 60%; }
 
-nav label, #hamburger {
+nav label,
+#hamburger {
   display: none; }
 
 nav ul {
@@ -145,7 +146,7 @@ nav button {
   nav ul {
     padding: 0; }
   nav a {
-    color: #1A1A1A;
+    color: #1a1a1a;
     font-weight: 500;
     cursor: pointer; }
   /* Show Hamburger */
@@ -167,8 +168,38 @@ nav button {
   /* Toggle show/hide menu on checkbox click */
   #page-nav ul {
     display: none; }
-  #page-nav input[type=checkbox]:checked ~ ul {
+  #page-nav input[type='checkbox']:checked ~ ul {
     animation: fadein 1s forwards;
     display: block; } }
+
+tbody {
+  font-size: 16px;
+  background-color: transparent; }
+
+.thead {
+  background-color: #1a1a1a;
+  font-size: 18px;
+  color: white;
+  font-weight: normal; }
+
+.btnS {
+  float: right;
+  background-color: hotpink;
+  border: none;
+  color: white;
+  padding: 5px 15px;
+  text-align: left;
+  font-size: 14px; }
+
+.btnS:focus {
+  outline: none; }
+
+.btnS:after {
+  content: 'Less';
+  float: right;
+  margin-left: 3px; }
+
+.btnS.collapsed:after {
+  content: 'More'; }
 
 /*# sourceMappingURL=style.css.map */
