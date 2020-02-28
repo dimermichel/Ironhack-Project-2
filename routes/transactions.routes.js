@@ -30,6 +30,26 @@ router.get('/transactions', routeGuard, (req, res, next) => {
     .catch(err => console.log(err))
 });
 
+router.get('/transactions/json', routeGuard, (req, res, next) => {
+
+  //Looking for all transactions of the logged user
+  Transaction.find({
+      owner: req.session.user._id
+    })
+    .then(currentTransactions => {
+      //console.log({ currentTransaction });
+      if (!currentTransactions) {
+        res.json({ errorMessage: "There is no Transaction." })
+        return;
+      }
+      res.json({
+        transaction: currentTransactions
+      });
+    })
+    .catch(err => console.log(err))
+});
+
+
 router.get('/add-transaction', routeGuard, (req, res, next) => {
   const category = listOfCategories.values
   //Setup Todays date to defaut when creating transaction date
