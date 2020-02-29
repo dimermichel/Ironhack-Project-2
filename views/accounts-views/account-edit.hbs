@@ -18,35 +18,33 @@
 </ul>
 <div class="container">
   <h1>Edit Account</h1>   <br>                                                                            
-  <div id="boom" class="collapse show">
-  <div class="table-responsive">
-    <table class="table">
-      <thead class="thead">
-        <tr>
-          <th>#</th>
-          <th>Name</th>
-          <th>Date</th>
-          <th>Amount</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-      {{#each transaction}}
-        <tr> 
-          <td></td>
-          <td>{{this.merchant}}</td>
-          <td>{{date}}</td>
-          <td>{{this.amount}}</td>
-          <td>  <form action="/transaction/{{this._id}}/delete/account" method="POST">
-  <button type="submit">
-    Delete
-  </button>
+ 
+   <table id="example" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+               {{#each transaction}}
+            <tr>
+                <td>{{this.merchant}}</td>
+                <td>{{this.dateParsed}}</td>
+                <td>{{this.amount}}</td>
+                <td>  <form action="/transaction/{{this._id}}/delete" method="POST">
+    <button type="submit">
+      Delete
+    </button>
   </form></td>
-        </tr>
-       {{/each}}
-      </tbody>
+                
+      
+            </tr>
+            {{/each}}
+                    </tbody>
     </table>
-  </div>
-</div>
- <button type="button" class="btnS" data-toggle="collapse" data-target="#boom">Show</button>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js">
+ <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="/javascripts/dataTable.js"></script>
+
