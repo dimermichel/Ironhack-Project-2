@@ -4,12 +4,19 @@ body {
   font-family: 'Roboto', sans-serif;
   padding: 0;
   margin: 0;
+<<<<<<< HEAD
   color: #1A1A1A;
 }
 
 a {
   color: #00B7FF;
 }
+=======
+  color: #1a1a1a; }
+
+a {
+  color: #00b7ff; }
+>>>>>>> 93b46ec11c572eebb37a1e77de0a2c057586016b
 
 h1 {
   text-align: center;
@@ -56,15 +63,24 @@ h1 {
   padding: 8px;
   text-decoration: none;
   text-transform: uppercase;
+<<<<<<< HEAD
   transition: .3s ease background;
   width: 75%;
 }
+=======
+  transition: 0.3s ease background;
+  width: 100%; }
+>>>>>>> 93b46ec11c572eebb37a1e77de0a2c057586016b
 
 .form button:hover {
   background: #fff;
   color: #43a3e6;
+<<<<<<< HEAD
   transition: .3s ease background;
 }
+=======
+  transition: 0.3s ease background; }
+>>>>>>> 93b46ec11c572eebb37a1e77de0a2c057586016b
 
 .name {
   display: flex;
@@ -79,7 +95,7 @@ h1 {
 }
 
 .error-message {
-  background: #F02B63;
+  background: #f02b63;
   box-sizing: border-box;
   color: #fff;
   margin: 20px auto;
@@ -88,7 +104,7 @@ h1 {
 }
 
 .principal-div {
-  padding-top: 15vh;
+  margin-top: 15vh;
   padding-left: 5vw;
   padding-right: 5vw;
 }
@@ -141,8 +157,12 @@ nav {
 
 nav label,
 #hamburger {
+<<<<<<< HEAD
   display: none;
 }
+=======
+  display: none; }
+>>>>>>> 93b46ec11c572eebb37a1e77de0a2c057586016b
 
 nav ul {
   list-style: none;
@@ -193,7 +213,7 @@ nav button {
   }
 
   nav a {
-    color: #1A1A1A;
+    color: #1a1a1a;
     font-weight: 500;
     cursor: pointer;
   } */ 

@@ -1,11 +1,52 @@
-<h1>Edit Account</h1>
-
 <form action="/accounts/{{account._id}}/update" method="POST">
 <label for="accName">Account Name: </label>
       <input required type="text" name="accName" value="{{account.accName}}">
 <label for="accBalance">Account Balance: </label>
       <label>$ {{account.accBalance}} </label>
       {{!-- <input required type="text" name="accBalance" value="{{account.accBalance}}"> --}}
-
 <button type="submit">Save Changes </button>      
 </form>
+<ul>
+  {{#each transaction}}
+  <li><a href="/transactions/{{this._id}}">{{this.merchant}}</a> ................. Amount: ${{this.amount}}</li>
+  <form action="/transaction/{{this._id}}/delete" method="POST">
+  <button type="submit">
+    Delete
+  </button>
+  </form>
+  {{/each}}
+</ul>
+<div class="container">
+  <h1>Edit Account</h1>   <br>                                                                            
+  <div id="boom" class="collapse show">
+  <div class="table-responsive">
+    <table class="table">
+      <thead class="thead">
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Date</th>
+          <th>Amount</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+      {{#each transaction}}
+        <tr> 
+          <td></td>
+          <td>{{this.merchant}}</td>
+          <td>{{date}}</td>
+          <td>{{this.amount}}</td>
+          <td>  <form action="/transaction/{{this._id}}/delete/account" method="POST">
+  <button type="submit">
+    Delete
+  </button>
+  </form></td>
+        </tr>
+       {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
+ <button type="button" class="btnS" data-toggle="collapse" data-target="#boom">Show</button>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js">
