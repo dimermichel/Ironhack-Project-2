@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap");
+/* @import url("https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap");
 
 body {
   font-family: 'Roboto', sans-serif;
@@ -110,10 +110,11 @@ h1 {
 /* Header */
 
 /* NavBar Styling Vero */
-#nav-styling {
+/* #nav-styling {
   background-color: #003b3465;
   height: 70px;
   padding: 15px;
+  z-index: 1;
 }
 
 .button-nav {
@@ -175,10 +176,10 @@ nav button {
 .profile-img {
   width: 200px;
   padding: 10px;
-}
+} */
 
 /* Media Queries */
-@media (max-width: 750px) {
+/* @media (max-width: 750px) {
   header>div {
     flex-flow: column wrap;
   }
@@ -195,10 +196,10 @@ nav button {
     color: #1A1A1A;
     font-weight: 500;
     cursor: pointer;
-  }
+  } */ 
 
   /* Show Hamburger */
-  nav label {
+  /* nav label {
     display: inline-block;
     color: #191919;
     font-style: normal;
@@ -207,18 +208,18 @@ nav button {
     position: absolute;
     top: 15px;
     right: 20px;
-  }
+  } */
 
   /* Break down menu items into vertical */
-  nav ul li {
+  /* nav ul li {
     font-size: 2em;
     text-align: center;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     display: block;
-  }
+  } */
 
   /* Toggle show/hide menu on checkbox click */
-  #page-nav ul {
+  /* #page-nav ul {
     display: none;
   }
 
@@ -226,9 +227,62 @@ nav button {
     animation: fadein 1s forwards;
     display: block;
   }
-}
+} */
 
 /*# sourceMappingURL=style.css.map */
+
+#nav-bar{
+        z-index: 9999;
+        position: fixed;
+        width: 100%;
+        padding: 10px;
+        top: 0;
+        background-color: #3C7C89;
+        margin-bottom: 1vh;
+}
+
+#nav-bar a{
+    color: white;
+}
+
+/* micheeeeeeeeeeeeeeeeeeeeeeeeeeel */
+
+.form button {
+  box-sizing: border-box;
+  font-size: 14px;
+  outline: 0;
+  padding: 1vw;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.form button {
+  background: #43a3e6;
+  border: 1px solid #43a3e6;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  padding: 8px;
+  margin-top: 20px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: .3s ease background;
+  width: 75%;
+}
+
+.form button:hover {
+  background: #fff;
+  color: #43a3e6;
+  transition: .3s ease background;
+}
+
+#profile-pic {
+  width: 50px;
+}
+
+
 
 /* veroooooooooooooooooooooooooooo */
 
@@ -318,6 +372,7 @@ body {
   font-size: 20px;
   font-weight: 400;
   padding: 20px;
+  margin: 6px;
 }
 
 .login input[type=password] {
@@ -331,7 +386,7 @@ body {
   font-size: 20px;
   font-weight: 400;
   padding: 20px;
-  margin-top: 10px;
+  margin: 10px 6px;
 }
 
 .login input[type=button] {
@@ -346,7 +401,7 @@ body {
   font-size: 20px;
   font-weight: 400;
   padding: 6px;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 .login input[type=button]:hover {
