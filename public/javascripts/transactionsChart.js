@@ -44,7 +44,8 @@ let ctx = document.getElementById('myChart');
 }
 
 axios
-    .get(process.env.BASE_URL+'/transactions/json')
+    //localhost
+    .get('https://miawallet.herokuapp.com/transactions/json')
     .then(allTransactions => {
       const amounts = allTransactions.data.transaction.map( obj => obj.amount);
       const categories = allTransactions.data.transaction.map( obj => obj.category);
