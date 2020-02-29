@@ -66,13 +66,18 @@ router.get('/accounts/:id/update', routeGuard, (req, res, next) => {
             return;
           }
           // Parse the date from ISO to Date JS using Moment.js to display in the Date Input
-          const str = currentTransactions.date;
-          const date = moment(str);
-          const dateComponent = date.utc().format('YYYY-MM-DD');
+          const newTransactions = currentTransactions.map(element => {
+            const str = element.date;
+            const date = moment(str);
+            const dateComponent = date.utc().format('MM/DD/YYYY');
+            console.log(dateComponent);
+            element.dateParsed = dateComponent;
+            return element;
+          });
+
           res.render('accounts-views/account-edit', {
             account: currentAccounts,
-            transaction: currentTransactions,
-            date: dateComponent,
+            transaction: newTransactions,
           });
         })
         .catch(err => console.log(err));
