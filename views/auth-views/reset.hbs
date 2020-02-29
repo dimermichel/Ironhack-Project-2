@@ -12,3 +12,25 @@
 
   <button type="submit">Reset</button>
 </form>
+
+<div class="body"></div>
+<div class="grad"></div>
+<div class="header">
+  <div>Mia<span>Wallet</span></div>
+</div>
+<br>
+<div class="login">
+  <form id="form" class="form" action="/reset" method="POST">
+    {{!-- <label for="firstName">First name</label><br> --}}
+    <input required type="text" name="email" placeholder="Your email">
+
+    {{#if errorMessage}}
+    <div class="error-message">{{ errorMessage }}</div>
+    {{/if}}
+    <button type="submit">Reset</button>
+  </form>
+
+  {{!-- 
+				<input type="text" placeholder="username" name="user"><br>
+				<input type="password" placeholder="password" name="password"><br> --}}
+</div>
