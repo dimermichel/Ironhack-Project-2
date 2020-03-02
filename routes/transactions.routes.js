@@ -42,8 +42,26 @@ router.get('/transactions/json', routeGuard, (req, res, next) => {
         res.json({ errorMessage: "There is no Transaction." })
         return;
       }
+
+      const categories = currentTransactions.map( obj => obj.category);
+      let unique = categories.filter((item, i, ar) => ar.indexOf(item) === i);
+      let newObj = []
+      for (let i = 0; i < unique.length; i++){
+        let obj = {}
+        obj.category = unique[i]
+        let newSum = currentTransactions.filter( obj => {if (obj.category === unique[i]) return true })
+        let totalAmount = 0
+        for (let key in newSum) {
+          let value = newSum[key].amount;
+          totalAmount += value
+        }
+        obj.amount = totalAmount
+        newObj.push(obj)
+      }
+      console.log(newObj)
+
       res.json({
-        transaction: currentTransactions
+        transaction: newObj
       });
     })
     .catch(err => console.log(err))
@@ -93,7 +111,7 @@ router.post("/add-transaction", routeGuard, (req, res, next) => {
   let lastAccBalance = 0;
 
   if (amount === "" || merchant === "" || date === "") {
-    res.render("transactions-views/add-transaction", {
+    res.render("wallet", {
       errorMessage: "Please fill up the required forms."
     });
     return;
@@ -130,7 +148,7 @@ router.post("/add-transaction", routeGuard, (req, res, next) => {
         });
     })
     .then(() => {
-      res.redirect("/transactions")
+      res.redirect("/wallet")
     })
     .catch(error => console.log(error))
 });
@@ -248,7 +266,7 @@ router.post('/transactions/:id', routeGuard, (req, res, next) => {
               currentAccount.save()
                 .then(result => {
                   // console.log(result)
-                  res.redirect('/transactions')
+                  res.redirect('/wallet')
                 }).catch(err => console.log(err))
             }).catch(err => console.log(err))
         }).catch(err => console.log(err))
@@ -280,7 +298,7 @@ router.post('/transaction/:id/delete', routeGuard, (req, res, next) => {
         .then(result => {
           //Finally delete the Transaction
           Transaction.findByIdAndRemove(req.params.id)
-            .then(() => res.redirect('/transactions'))
+            .then(() => res.redirect('/wallet'))
         })
         .catch(err => console.log(err));
     })
