@@ -88,6 +88,7 @@ router.get('/accounts/:id/update', routeGuard, (req, res, next) => {
     })
     .catch(err => console.log(err));
 });
+
 router.post('/accounts/:id/update', routeGuard, (req, res, next) => {
   const { accName } = req.body;
   if (accName === '') {

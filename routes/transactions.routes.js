@@ -30,6 +30,60 @@ router.get('/transactions', routeGuard, (req, res, next) => {
     .catch(err => console.log(err))
 });
 
+
+router.get('/overview/json', routeGuard, (req, res, next) => {
+  Account.find({ owner: req.session.user._id})
+    .then(currentAccounts => {
+      console.log({ currentAccounts});
+      let balance = currentAccounts.map( obj => obj.accBalance);
+      let totalBalance = balance.reduce((acc, val) => {
+        return acc + val;
+      });
+
+      if (!currentAccounts) {
+        res.json({
+          errorMessage: 'There is no Account',
+        });
+        return;
+      }
+      Transaction.find({
+        owner: req.session.user._id
+      })
+        .then(currentTransactions => {
+          // console.log({ currentTransactions });
+          if (!currentTransactions) {
+            res.json({
+              account: totalBalance,
+              errorMessage: 'There is no Transactions in this Account.',
+            });
+            return;
+          }
+
+          const newTransactions = currentTransactions.map(element => {
+            if (element.type === 'debit') {
+              element.amount = -(element.amount);
+            } 
+            element.amountParsed = element.amount.toFixed(2);
+            return element;
+          });
+
+          let balanceTrans = newTransactions.map( obj => obj.amount);
+          let totalBalanceTrans = balanceTrans.reduce((acc, val) => {
+            return acc + val;
+          });
+
+          res.json({
+            account: totalBalance,
+            transaction: totalBalanceTrans,
+          });
+        })
+        .catch(err => console.log(err));
+    })
+    .catch(err => console.log(err));
+});
+
+
+
 router.get('/transactions/json', routeGuard, (req, res, next) => {
 
   //Looking for all transactions of the logged user

@@ -1,5 +1,5 @@
 <div id="wrapper" class="row">
-            <aside class="col-md-6 order-md-1">
+            <aside class="col-md-6 order-md-1 mb-4">
                     <div class="card">
                       <div class="card-body">
                         <div id="canvas-holder">
@@ -8,10 +8,9 @@
                               <div class=""></div>
                             </div>
                             <div class="chartjs-size-monitor-shrink">
-                              <div class=""></div>
                             </div>
                           </div>
-                          <canvas id="myChart2" style="display: block; width: 250px; height: 250px;"></canvas>
+                          <canvas id="myChart2" style="display: block; width: 200px; height: 200px;"></canvas>
                         </div>
                       </div>
                     </div>
@@ -28,7 +27,6 @@
                           <div class=""></div>
                         </div>
                         <div class="chartjs-size-monitor-shrink">
-                          <div class=""></div>
                         </div>
                       </div>
                       <canvas id="myChart" style="display: block; width: 200px; height: 200px;"></canvas>
@@ -37,7 +35,7 @@
                 </div>
                 
             </aside> <!-- col.// -->
-        </div> <!-- row.// -->
+  </div> <!-- row.// -->
 
 
 
@@ -264,10 +262,12 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="/javascripts/overviewChart.js"></script>
 <script src="/javascripts/transactionsChart.js"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 <script src="/javascripts/dataTable.js"></script>
 <script src="/javascripts/accountTable.js"></script>
+
 <script>
   new Cleave('.input-tel', {
     numericOnly: true,

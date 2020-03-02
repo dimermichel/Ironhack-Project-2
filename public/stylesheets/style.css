@@ -79,4 +79,10 @@ nav button {
   align-items: center;
   align-content: center; }
 
+canvas {
+  height: 240px !important; }
+
+.card {
+  border: none; }
+
 /*# sourceMappingURL=style.css.map */
