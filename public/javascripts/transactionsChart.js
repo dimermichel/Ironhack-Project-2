@@ -55,9 +55,11 @@ function printChart(amounts, categories) {
 }
 
 axios
-  // localhost
+  // Dev
+  // http://localhost:3000/
   // Change for production
-  .get('https://miawallet.herokuapp.com/transactions/json')
+  // https://miawallet.herokuapp.com/
+  .get('http://localhost:3000/transactions/json')
   .then(allTransactions => {
     const amounts = allTransactions.data.transaction.map(obj => obj.amount);
     const categories = allTransactions.data.transaction.map(

@@ -44,9 +44,11 @@ function printChartBar(accBalance, amountTrans) {
 printChartBar();
 
 axios
-  // localhost
+  // Dev
+  // http://localhost:3000/
   // Change for production
-  .get('https://miawallet.herokuapp.com/overview/json')
+  // https://miawallet.herokuapp.com/
+  .get('http://localhost:3000/overview/json')
   .then(response => {
     console.log(response);
     const accBalance = response.data.account;
