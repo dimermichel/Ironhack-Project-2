@@ -1,43 +1,30 @@
 {{!-- views/auth-views/login.hbs --}}
 
-{{!-- <h1>Login</h1>
-
-<form id="form" class="form" action="/login" method="POST">
-  <label for="username">Username</label><br>
-  <input required type="text" name="username" placeholder="Your username">
-
-  <label for="password">Password</label><br>
-  <input required type="password" name="password" placeholder="********">
-
-  {{#if errorMessage}}
-  <div class="error-message">{{ errorMessage }}</div>
-  {{/if}}
-
-  <button type="submit">Login</button>
-  <a href="/reset">Forgot your password?</a>
-</form> --}}
-
-<div class="body"></div>
-<div class="grad"></div>
-<div class="header">
-  <div>Mia<span>Wallet</span></div>
-</div>
-<br>
-<div class="login">
-  <form id="form" class="form" action="/login" method="POST">
-    {{!-- <label for="firstName">First name</label><br> --}}
-     <input required type="text" name="username" placeholder="Your username">
-     <input required type="password" name="password" placeholder="********">
-
-    {{#if errorMessage}}
-    <div class="error-message">{{ errorMessage }}</div>
-    {{/if}}
-    <button type="submit">LOGIN</button>
-    <br>
-    <a id="reset" href="/reset">Forgot your password?</a>
-  </form>
-
-  {{!-- 
-				<input type="text" placeholder="username" name="user"><br>
-				<input type="password" placeholder="password" name="password"><br> --}}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+      <div class="card card-signin my-5">
+        <div class="card-body">
+          <h5 class="card-title text-center">Log In</h5>
+          <form class="form-signin" id="form" action="/login" method="POST">
+            <div class="form-label-group">
+              <input type="text" id="inputEmail" class="form-control" name="username" placeholder="Username" required>
+              <label for="inputPassword"></label>
+            </div>
+            <div class="form-label-group">
+              <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password"
+                required>
+              <label for="inputPassword"></label>
+            </div>
+            <hr class="my-4">
+            {{#if errorMessage}}
+            <div class="error-message">{{ errorMessage }}</div>
+            {{/if}}
+             <a id="reset" href="/reset">Forgot your password?</a>
+            <button class="btn btn-lg btn-warning btn-block text-uppercase" type="submit">Log In</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
