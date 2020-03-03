@@ -4,35 +4,34 @@
 <br>
 <h1>{{user.username}}'s Profile</h1>
 
+
 <form action="/profile/update" class="form" method="post" enctype="multipart/form-data">
-
-  <div class="name">
-    <div>
-      <label for="firstName">First name</label><br>
-      <input required value="{{user.firstName}}" type="text" name="firstName" placeholder="First name">
+    <div class="form-row justify-content-center">
+    <div class="form-group col-md-4">
+      <label for="firstName">First Name</label>
+      <input required class="form-control" value="{{user.firstName}}" type="text" name="firstName" placeholder="First Name">
     </div>
-
-    <div>
-      <label for="lastName">Last name</label><br>
-      <input required value="{{user.lastName}}" type="text" name="lastName" placeholder="Last name">
+    <div class="form-group col-md-4">
+      <label for="lastName">Last Name</label>
+      <input required class="form-control" value="{{user.lastName}}" type="text" name="lastName" placeholder="Last Name">
     </div>
   </div>
-  <br>
-  <label for="email">Email</label><br>
-  <input required value="{{user.email}}" type="email" name="email" placeholder="email@example.com">
-
-  <br>
-  {{!-- <label for="password">Password</label><br>
-  <input required value="" type="password" name="password" placeholder="********"> --}}
-
-  {{#if errorMessage}}
-  <div class="error-message">{{ errorMessage }}</div>
-  {{/if}}
-
-  <br>
-  <label for="imageUrl">Profile Picture</label>
-  <input id="imageUrl" type="file" name="imageUrl">
-
-  <button type="submit">Update</button>
-
+  <div class="form-row justify-content-center">
+    <div class="form-group col-md-8">
+      <label for="email">Email</label>
+      <input required class="form-control" value="{{user.email}}" type="email" name="email" placeholder="email@example.com">
+    </div>
+  </div>
+  <div class="form-row justify-content-center">
+     <div class="form-group col-md-8">
+      <label for="imageUrl">Profile Picture</label>
+      <input class="form-control" id="imageUrl" type="file" name="imageUrl">
+    </div>
+  </div>
+  <div class="form-row justify-content-center">
+     <div class="form-group col-md-8">
+       <button type="submit" class="btn btn-warning btn-lg btn-block"><i class="fas fa-user-edit"></i>   Update</button>
+    </div>
+  </div>
+ 
 </form>
