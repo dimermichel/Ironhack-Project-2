@@ -46,7 +46,7 @@ printChartBar();
 axios
   // localhost
   // Change for production
-  .get('http://localhost:3000/overview/json')
+  .get('https://miawallet.herokuapp.com/overview/json')
   .then(response => {
     console.log(response);
     const accBalance = response.data.account;
