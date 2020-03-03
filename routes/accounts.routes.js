@@ -24,13 +24,15 @@ router.get('/accounts', routeGuard, (req, res, next) => {
     })
     .catch(err => console.log(err));
 });
+
 router.get('/account-input', routeGuard, (req, res, next) => {
   res.render('accounts-views/account-input');
 });
+
 router.post('/accounts', routeGuard, (req, res, next) => {
   const { accName, accBalance } = req.body;
   if (accName === '' || accBalance === '') {
-    res.render('accounts-views/account-input', {
+    res.render('wallet', {
       errorMessage: 'Please fill up the account form',
     });
     return;
@@ -38,10 +40,11 @@ router.post('/accounts', routeGuard, (req, res, next) => {
   const owner = req.session.user._id;
   Account.create({ accName, accBalance, owner })
     .then(() => {
-      res.redirect('/accounts');
+      res.redirect('/wallet');
     })
     .catch(error => console.log(error));
 });
+
 router.get('/accounts/:id/update', routeGuard, (req, res, next) => {
   Account.findOne({ owner: req.session.user._id, _id: req.params.id })
     .then(currentAccounts => {
@@ -53,7 +56,7 @@ router.get('/accounts/:id/update', routeGuard, (req, res, next) => {
         return;
       }
       Transaction.find({
-        owner: req.session.user._id,
+        account: req.params.id,
       })
         .then(currentTransactions => {
           // console.log({ currentTransactions });
@@ -72,6 +75,7 @@ router.get('/accounts/:id/update', routeGuard, (req, res, next) => {
             const dateComponent = date.utc().format('MM/DD/YYYY');
             console.log(dateComponent);
             element.dateParsed = dateComponent;
+            element.amountParsed = element.amount.toFixed(2);
             return element;
           });
 
@@ -84,10 +88,11 @@ router.get('/accounts/:id/update', routeGuard, (req, res, next) => {
     })
     .catch(err => console.log(err));
 });
+
 router.post('/accounts/:id/update', routeGuard, (req, res, next) => {
   const { accName } = req.body;
   if (accName === '') {
-    res.render('accounts-views/account-edit', {
+    res.render('wallet', {
       errorMessage: 'Please fill the forms',
     });
     return;
@@ -101,7 +106,7 @@ router.post('/accounts/:id/update', routeGuard, (req, res, next) => {
       // currentAccount.accBalance = accBalance;
       currentAccount.save();
     })
-    .then(res.redirect('/accounts'))
+    .then(res.redirect('/wallet'))
     .catch(err => console.log(err));
 });
 router.post('/accounts/:id/delete', routeGuard, (req, res, next) => {
@@ -123,11 +128,11 @@ router.post('/accounts/:id/delete', routeGuard, (req, res, next) => {
             },
           );
         } else {
-          res.redirect('/accounts');
+          res.redirect('/wallet');
         }
       });
     })
-    .then(() => res.redirect('/accounts'))
+    .then(() => res.redirect('/wallet'))
     .catch(err => console.log(err));
 });
 module.exports = router;

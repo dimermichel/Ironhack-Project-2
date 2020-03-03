@@ -1,46 +1,59 @@
-<h1>Edit Transaction</h1>
+<div class="container">
+  <h3>Edit Transaction</h3>
 
-<form id="form" class="form" action="/transactions/{{transaction._id}}" method="POST">
-  
-  <div class="quantity">
-    <input required type="number" name="amount" placeholder="0.00" value="{{transaction.amount}}">
-  </div>
-
-  {{#if errorMessage}}
+    {{#if errorMessage}}
     <div class="error-message">{{ errorMessage }}</div>
-  {{/if}}
+    {{/if}}
 
-  <div>
-    <label for="account">Account: {{transaction.account.accName}}</label>
+    <form id="form" action="/transactions/{{transaction._id}}" method="POST">
+    <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="amount">Amount</label>
+      <input required class="form-control" type="number" name="amount" placeholder="100.00" value="{{transaction.amount}}">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="merchant">Merchant</label>
+      <input required class="form-control" type="text" name="merchant" value="{{transaction.merchant}}">
+    </div>
   </div>
-
-  <div>
-    <input required type="text" name="merchant" value="{{transaction.merchant}}">
-    <input type="date" name="date" value="{{date}}">
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="account">Account</label>
+      <input readonly type="text" class="form-control-plaintext" name="account" value="{{transaction.account.accName}}">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="date">Date</label>
+      <input class="form-control" type="date" name="date" value="{{date}}">
+    </div>
   </div>
-
-  <div>
-    <label for="type">Type</label>
-    <select name="type" id="type">
-      <option value="{{transaction.type}}" selected>{{transaction.type}}</option>
-      <option value="debit" >Debit</option>
-      <option value="credit">Credit</option>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="type">Type</label>
+      <select class="form-control" name="type" id="type">
+        <option value="{{transaction.type}}" selected>{{transaction.type}}</option>
+        <option value="debit" >Debit</option>
+        <option value="credit">Credit</option>
     </select>
-  </div>
-
-  <div>
-    <label for="category">Category</label>
-    <select name="category" id="category">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="category">Category</label>
+      <select class="form-control" name="category" id="category">
       <option value="{{transaction.category}}" selected >{{transaction.category}}</option>
       {{#each category}}
       <option value="{{this}}">{{this}}</option>
       {{/each}}
       <option value="Uncategorized">Uncategorized</option>
-
     </select>
-    <input type="text" name="tags" value="{{transaction.tags}}" placeholder="tags">
-    <input type="text" name="notes" value="{{transaction.notes}}" placeholder="Some notes">
-    <button type="submit">Update</button>
+    </div>
   </div>
+  <div class="form-group">
+    <label for="tags">Tags</label>
+    <input class="form-control" type="text" name="tags" value="{{transaction.tags}}" placeholder="Tags">
+  </div>
+  <div class="form-group">
+    <label for="notes">Notes</label>
+    <input class="form-control" type="text" name="notes" value="{{transaction.notes}}" placeholder="Some Notes">
+  </div>
+  <button type="submit" class="btn btn-warning">Update</button>
 </form>
-
+</div>

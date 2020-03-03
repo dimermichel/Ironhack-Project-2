@@ -5,70 +5,98 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>{{title}}</title>
-  <link rel="stylesheet" href="/stylesheets/style.css" />
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <title>{{title}}</title>  
+   <!-- ADD JQUERY CDN - BOOTSTRAP IS DEPENDENT ON IT SO HAS TO BE LOADED FIRST -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script>
+    ​
+    <!-- ADD POPPER CDN - BOOTSTRAP IS DEPENDENT ON IT SO HAS TO BE LOADED FIRST -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    ​
+    <!-- ADD BOOTSTRAP CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+    ​
+    <!-- ADD BOOTSTRAP JS CDN -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+    <!-- ADD CLEAVE JS CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.5.3/cleave.min.js"></script>
+    ​
+    <!-- STYLES TO THE DATATABLES CSS -->
+  
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/4376a7f723.js" crossorigin="anonymous"></script>
+    
+    <!-- YOUR STYLES COME LAST SINCE YOU DON'T WANT IT TO BE OVERWRITTEN WITH THE BOOTSTRAP CSS -->
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+
 </head>
 
 <body>
 
   <header>
-<div>
-  <ul id="nav-bar" class="nav nav-pills nav-fill">
-      {{#unless user._id}}
-      {{!-- <li class="nav-item">
-            <a class="nav-link" href="/"><b style="font-size: large;">Booki</b></a>
-        </li> --}}
 
-      <li class="nav-item">
-        <a class="nav-link" href="/login">LOGIN</a>
-      </li>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
 
-      <li class="nav-item">
-        <a class="nav-link" href="/signup">SIGNUP</a>
-      </li>
-      {{/unless}}
+        {{#unless user._id}}
+        <a class="navbar-brand" href="#"><i class="fas fa-wallet"></i> Mia Wallet</a>
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        {{/unless}}
 
-      {{#if user}}
-      <li class="nav-item">
-        <a class="nav-link" href="#">DASHBOARD</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/accounts">ACCOUNTS</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/transactions">TRANSACTIONS</a>
-      </li>
-      <li class="nav-item">
-        <img id="profile-pic" src={{user.profilePicUrl}} alt="profile pic">
-      </li>
-      <li class="nav-item">
-        <form action="/logout" method="POST">
-        <button type="submit">Logout</button>
-        </form>
-      </li>
-      {{/if}}
-    </ul>
-</div>
+        {{#if user}}
+        <a class="navbar-brand" href="/wallet"><i class="fas fa-wallet"></i> Mia Wallet</a>
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        {{/if}}
 
+
+        <div class="navbar-collapse collapse" id="navbarsExample07" style="">
+          <ul class="navbar-nav form-inline">
+
+            {{#unless user._id}}
+              <li class="av-item active">
+                <a class="nav-link" href="/login">LOGIN</a>
+              </li>
+
+              <li class="nav-item active">
+                <a class="nav-link" href="/signup">SIGNUP</a>
+              </li>
+            {{/unless}}
+
+          </ul>
+        </div>
+            {{#if user}} 
+            <ul class="navbar-nav form-inline">
+            <li class="nav-item dropdown my-2 my-md-0">
+              <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown07" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img id="profile-pic" src={{user.profilePicUrl}} alt="profile pic"></a>
+              <div class="dropdown-menu" aria-labelledby="dropdown07">
+                <a class="dropdown-item" href="/profile">Profile</a>
+                <form class="dropdown-item" action="/logout" method="POST">
+                  <button type="submit">Logout</button>
+                </form>
+              </div>
+            </li>
+            </ul>
+         {{/if}}
+      </div>
+    </nav>
 
   </header>
 
   <div class="principal-div">
     {{{body}}}
   </div>
-  
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-    crossorigin="anonymous"></script>
   <script src="/javascripts/script.js"></script>
 </body>
 

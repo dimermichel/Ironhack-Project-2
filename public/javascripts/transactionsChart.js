@@ -27,6 +27,7 @@ let ctx = document.getElementById('myChart');
         }]
     },
     options: {
+      maintainAspectRatio: false,
       responsive: true,
       legend: {
         position: 'bottom',
