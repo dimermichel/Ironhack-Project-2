@@ -1,36 +1,24 @@
 {{!-- views/auth-views/reset.hbs --}}
 
-<h1>Reset your password</h1>
-
-<form id="form" class="form" action="/reset" method="POST">
-  <label for="email">Email</label><br>
-  <input required type="email" name="email" placeholder="Your email">
-
-  {{#if errorMessage}}
-  <div class="error-message">{{ errorMessage }}</div>
-  {{/if}}
-
-  <button type="submit">Reset</button>
-</form>
-
-<div class="body"></div>
-<div class="grad"></div>
-<div class="header">
-  <div>Mia<span>Wallet</span></div>
-</div>
-<br>
-<div class="login">
-  <form id="form" class="form" action="/reset" method="POST">
-    {{!-- <label for="firstName">First name</label><br> --}}
-    <input required type="text" name="email" placeholder="Your email">
-
-    {{#if errorMessage}}
-    <div class="error-message">{{ errorMessage }}</div>
-    {{/if}}
-    <button type="submit">Reset</button>
-  </form>
-
-  {{!-- 
-				<input type="text" placeholder="username" name="user"><br>
-				<input type="password" placeholder="password" name="password"><br> --}}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+      <div class="card card-signin my-5">
+        <div class="card-body">
+          <h5 class="card-title text-center">Reset your Password</h5>
+          <form class="form-signin" id="form" action="/reset" method="POST">
+            <div class="form-label-group">
+               <label for="email">Email</label>
+              <input type="text" id="inputEmail" class="form-control" name="email" placeholder="Email" required>
+              <label for="inputPassword"></label>
+            </div>
+            {{#if errorMessage}}
+            <div class="error-message">{{ errorMessage }}</div>
+            {{/if}}
+            <button class="btn btn-lg btn-warning btn-block text-uppercase" type="submit">Reset</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
