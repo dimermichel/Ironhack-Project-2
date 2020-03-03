@@ -93,6 +93,7 @@
         <th>Name</th>
         <th>Date</th>
         <th>Amount</th>
+        <th>Category</th>
         <th>Action</th>
       </tr>
     </thead>
@@ -102,6 +103,7 @@
         <td><a href="/transactions/{{this._id}}">{{this.merchant}}</a></td>
         <td>{{this.dateParsed}}</td>
         <td>{{this.amountParsed}}</td>
+        <td>{{this.category}}</td>
         <td>
           <form action="/transaction/{{this._id}}/delete" method="POST">
             <button class="btn btn-outline-danger" type="submit">
