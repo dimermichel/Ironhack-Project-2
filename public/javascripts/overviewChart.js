@@ -3,7 +3,7 @@ function printChartBar(accBalance, amountTrans, net) {
   window.myHorizontalBar = new Chart(ctx2, {
     type: 'horizontalBar',
     data: {
-      labels: [],
+      labels: ['Overview'],
       datasets: [
         {
           label: 'Expenses/Income',
@@ -64,7 +64,7 @@ axios
     console.log(response);
     const accBalance = response.data.account;
     const amountTrans = response.data.transaction;
-    const net = accBalance + amountTrans
+    const net = (accBalance + amountTrans).toFixed(2);
     printChartBar(accBalance, amountTrans, net);
   })
   .catch(err => {
