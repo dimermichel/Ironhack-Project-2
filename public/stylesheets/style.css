@@ -1,9 +1,10 @@
-@import url("https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap");
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap');
 body {
   font-family: 'Roboto', sans-serif;
   padding: 0;
   margin: 0;
-  color: #1a1a1a; }
+  color: #1a1a1a;
+}
 
 .nav-bar {
   z-index: 9999;
@@ -11,20 +12,24 @@ body {
   width: 100%;
   padding: 10px;
   top: 0;
-  background-color: #3C7C89;
-  margin-bottom: 1vh; }
+  background-color: #3c7c89;
+  margin-bottom: 1vh;
+}
 
 a {
-  color: #00b7ff; }
+  color: #00b7ff;
+}
 
 h1 {
-  text-align: center; }
+  text-align: center;
+}
 
 .center {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 50%; }
+  width: 50%;
+}
 
 .error-message {
   background: #f02b63;
@@ -32,22 +37,27 @@ h1 {
   color: #fff;
   margin: 20px auto;
   padding: 20px;
-  width: 100%; }
+  width: 100%;
+}
 
 .principal-div {
   justify-content: space-around;
-  padding: 10vh 2vw; }
+  padding: 10vh 2vw;
+}
 
 .flex {
-  display: flex; }
+  display: flex;
+}
 
 .flex a {
   font-size: large;
-  padding-right: 1vw; }
+  padding-right: 1vw;
+}
 
 .flex button {
   cursor: pointer;
-  border: none; }
+  border: none;
+}
 
 nav button {
   font-size: inherit;
@@ -56,20 +66,25 @@ nav button {
   text-decoration: none;
   color: black;
   background-color: white;
-  cursor: pointer; }
+  cursor: pointer;
+}
 
 .profile-img {
   width: 200px;
-  padding: 10px; }
+  padding: 10px;
+}
 
 #profile-pic {
-  width: 50px; }
+  width: 50px;
+}
 
 .modal.fade {
-  z-index: 10000000 !important; }
+  z-index: 10000000 !important;
+}
 
 .list-group-item {
-  border: none; }
+  border: none;
+}
 
 #wrapper {
   display: flex;
@@ -77,12 +92,40 @@ nav button {
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
-  align-content: center; }
+  align-content: center;
+}
 
 canvas {
-  height: 240px !important; }
+  height: 240px !important;
+}
 
 .card {
-  border: none; }
+  border: none;
+}
 
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  box-shadow: 0px 1px 1px 0px #fff6af;
+  background: linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
+  background-color: #ffec64;
+  border-radius: 2px;
+  border: 1px solid #ffaa22;
+  display: inline-block;
+  cursor: pointer;
+  color: #333333;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 5px 13px;
+  text-decoration: none;
+  text-shadow: 0px 0px 2px #ffee66;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  background: linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
+  background-color: #ffab23;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:active {
+  position: relative;
+  top: 1px;
+}
 /*# sourceMappingURL=style.css.map */

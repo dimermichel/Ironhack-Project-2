@@ -16,6 +16,7 @@ function printChartBar(accBalance, amountTrans) {
           label: 'Income',
           backgroundColor: 'rgba(30, 255, 0, 0.2)',
           borderColor: 'rgba(30, 255, 0, 1)',
+          borderWidth: 1,
           data: [accBalance],
         },
       ],
