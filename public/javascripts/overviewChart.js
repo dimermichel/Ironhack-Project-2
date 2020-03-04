@@ -59,7 +59,7 @@ axios
   // http://localhost:3000/
   // Change for production
   // https://miawallet.herokuapp.com/
-  .get('https://miawallet.herokuapp.com/overview/json')
+  .get('http://localhost:3000/overview/json')
   .then(response => {
     console.log(response);
     const accBalance = response.data.account;

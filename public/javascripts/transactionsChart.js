@@ -62,7 +62,7 @@ axios
   // http://localhost:3000/
   // Change for production
   // https://miawallet.herokuapp.com/
-  .get('https://miawallet.herokuapp.com/transactions/json')
+  .get('http://localhost:3000/transactions/json')
   .then(allTransactions => {
     const amounts = allTransactions.data.transaction.map(obj => obj.amount);
     const categories = allTransactions.data.transaction.map(
