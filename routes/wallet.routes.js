@@ -40,6 +40,12 @@ router.get('/wallet', routeGuard, (req, res, next) => {
             });
             return;
           }
+          const newAccounts = currentAccounts.map(element => {
+            element.accNameParsed = element.accName.toUpperCase();
+            element.accBalanceParsed = element.accBalance.toFixed(2);
+            return element;
+          });
+
 
           // Parse the date from ISO to Date JS using Moment.js to display in the Date Input
           const newTransactions = currentTransactions.map(element => {
@@ -47,13 +53,14 @@ router.get('/wallet', routeGuard, (req, res, next) => {
             const date = moment(str);
             const dateComponent = date.utc().format('MM/DD/YYYY');
             console.log(dateComponent);
+            element.merchantParsed = element.merchant.toUpperCase();
             element.dateParsed = dateComponent;
             element.amountParsed = element.amount.toFixed(2);
             return element;
           });
 
           res.render('wallet', {
-            accounts: currentAccounts,
+            accounts: newAccounts,
             transaction: newTransactions,
             category,
             today

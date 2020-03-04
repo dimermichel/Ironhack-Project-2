@@ -61,9 +61,9 @@
     <tbody>
       {{#each accounts}}
       <tr>
-        <td><a href="/accounts/{{this._id}}/update">{{this.accName}}</a></td>
+        <td><a href="/accounts/{{this._id}}/update">{{this.accNameParsed}}</a></td>
 
-        <td>{{this.accBalance}}</td>
+        <td>{{this.accBalanceParsed}}</td>
         <td>
           <form action="/accounts/{{this._id}}/delete" method="POST">
             <button class="btn btn-outline-danger" type="submit">
@@ -94,7 +94,7 @@
     <tbody>
       {{#each transaction}}
       <tr>
-        <td><a href="/transactions/{{this._id}}">{{this.merchant}}</a></td>
+        <td><a href="/transactions/{{this._id}}">{{this.merchantParsed}}</a></td>
         <td>{{this.dateParsed}}</td>
         <td>{{this.amountParsed}}</td>
         <td>{{this.category}}</td>

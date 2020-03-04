@@ -167,7 +167,7 @@ authRouter.post('/reset', (req, res, next) => {
               <h2>You requested a password reset.</h2>
               <h3>The Mia Wallet Team is here to help you. 🧑🏻‍💻</h3>
               <h3>This link is only valid for one hour.</h3>
-              <h2>Please click this <a href="http://localhost:3000/reset/${token}">link</a> to set a new password.</h2>
+              <h2>Please click this <a href="https://miawallet.herokuapp.com/reset/${token}">link</a> to set a new password.</h2>
             </div>
           `
         })

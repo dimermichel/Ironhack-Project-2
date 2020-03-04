@@ -75,6 +75,7 @@ router.get('/accounts/:id/update', routeGuard, (req, res, next) => {
             const dateComponent = date.utc().format('MM/DD/YYYY');
             console.log(dateComponent);
             element.dateParsed = dateComponent;
+            element.merchantParsed = element.merchant.toUpperCase();
             element.amountParsed = element.amount.toFixed(2);
             return element;
           });

@@ -40,7 +40,10 @@ function printChart(amounts, categories) {
       maintainAspectRatio: false,
       responsive: true,
       legend: {
-        position: 'bottom',
+        position: 'left',
+        labels: {
+          usePointStyle: true
+        }
       },
       title: {
         display: true,
@@ -59,7 +62,7 @@ axios
   // http://localhost:3000/
   // Change for production
   // https://miawallet.herokuapp.com/
-  .get('http://localhost:3000/transactions/json')
+  .get('https://miawallet.herokuapp.com/transactions/json')
   .then(allTransactions => {
     const amounts = allTransactions.data.transaction.map(obj => obj.amount);
     const categories = allTransactions.data.transaction.map(
